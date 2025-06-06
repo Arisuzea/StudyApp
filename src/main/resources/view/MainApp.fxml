@@ -8,7 +8,7 @@
 
     <!-- Sidebar -->
     <left>
-        <VBox fx:id="sidebar" spacing="15" styleClass="sidebar" prefWidth="200" alignment="TOP_CENTER" >
+        <VBox fx:id="sidebar" spacing="15" styleClass="sidebar" prefWidth="250" alignment="TOP_CENTER" >
             <Label text="StudyApp" styleClass="sidebar-title"/>
             <Button fx:id="btnLessons" text="Lessons" maxWidth="Infinity"/>
             <Button fx:id="btnQuizzes" text="Quizzes" maxWidth="Infinity"/>

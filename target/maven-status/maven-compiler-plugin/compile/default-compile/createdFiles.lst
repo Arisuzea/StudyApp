@@ -1,4 +1,5 @@
-studyapp\controller\LoginController.class
 studyapp\util\DatabaseManager.class
+studyapp\controller\AdminController.class
+studyapp\controller\LoginController.class
 studyapp\MainApp.class
 studyapp\controller\MainController.class
