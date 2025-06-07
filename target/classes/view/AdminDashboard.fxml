@@ -10,9 +10,9 @@
     <left>
         <VBox fx:id="sidebar" spacing="15" styleClass="sidebar" prefWidth="250" alignment="TOP_CENTER" >
             <Label fx:id="lblTitle" text="StudyApp" styleClass="sidebar-title"/>
-            <Button fx:id="btnLessons" text="Create Lessons" maxWidth="Infinity"/>
-            <Button fx:id="btnQuizzes" text="Create Quizzes" maxWidth="Infinity"/>
-            <Button fx:id="btnProgress" text="View User Progress" maxWidth="Infinity"/>
+            <Button fx:id="btnCreateLessons" text="Create Lessons" maxWidth="Infinity"/>
+            <Button fx:id="btnCreateQuizzes" text="Create Quizzes" maxWidth="Infinity"/>
+            <Button fx:id="btnUserProgress" text="View User Progress" maxWidth="Infinity"/>
         </VBox>
     </left>
 

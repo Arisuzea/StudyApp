@@ -11,18 +11,18 @@ import javafx.scene.layout.StackPane;
 
 public class AdminController {
 
-    @FXML private Button btnLessons;
-    @FXML private Button btnQuizzes;
-    @FXML private Button btnProgress;
+    @FXML private Button btnCreateLessons;
+    @FXML private Button btnCreateQuizzes;
+    @FXML private Button btnUserProgress;
     @FXML private StackPane contentPane;
     @FXML private Label welcomeLabel;
     @FXML private Label lblTitle;
 
     @FXML
     public void initialize() {
-        btnLessons.setOnAction(e -> loadCreateLessons());
-        btnQuizzes.setOnAction(e -> showQuizzes());
-        btnProgress.setOnAction(e -> showProgress());
+        btnCreateLessons.setOnAction(e -> loadCreateLessons());
+        btnCreateQuizzes.setOnAction(e -> loadCreateQuizzes());
+        btnUserProgress.setOnAction(e -> showProgress());
         lblTitle.setOnMouseClicked(e -> resetToMainContent());
     }
 
@@ -30,15 +30,24 @@ public class AdminController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/CreateLessons.fxml"));
             Parent createLessonsView = loader.load();
+            createLessonsView.getStylesheets().add(getClass().getResource("/css/CreateLessons.css").toExternalForm());
             contentPane.getChildren().setAll(createLessonsView);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private void showQuizzes() {
-        welcomeLabel.setText("Quizzes will be here.");
+    private void loadCreateQuizzes() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/CreateQuizzes.fxml"));
+            Parent createQuizzesView = loader.load();
+            createQuizzesView.getStylesheets().add(getClass().getResource("/css/CreateQuizzes.css").toExternalForm());
+            contentPane.getChildren().setAll(createQuizzesView);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
 
     private void showProgress() {
         welcomeLabel.setText("Progress will be here.");

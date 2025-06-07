@@ -1,0 +1,11 @@
+.flow-pane {
+    -fx-padding: 20;
+    -fx-hgap: 20;
+    -fx-vgap: 20;
+}
+
+.vbox {
+    -fx-background-color: #c7dfff;
+    -fx-background-radius: 15;
+    -fx-cursor: hand;
+}
