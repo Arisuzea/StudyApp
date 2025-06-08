@@ -14,18 +14,19 @@
     </top>
 
     <center>
-        <VBox spacing="15" style="-fx-padding: 30; -fx-background-color: white;" maxWidth="600" maxHeight="800" BorderPane.alignment="CENTER">
+        <VBox spacing="15" style="-fx-padding: 30;" maxWidth="700" BorderPane.alignment="CENTER">
 
-            <Label text="Quiz Title:" style="-fx-font-size: 16px; -fx-text-fill: #34495e;"/>
-            <TextField fx:id="quizTitleField" promptText="Enter quiz title..." />
+            <Label text="Quiz Title:" style="-fx-font-size: 16px; -fx-text-fill: #34495e;" />
+            <TextField fx:id="quizTitleField" promptText="Enter quiz title..." styleClass="text-field"/>
 
-            <Label text="Description:" style="-fx-font-size: 16px; -fx-text-fill: #34495e;"/>
-            <TextArea fx:id="quizDescriptionField" promptText="Enter quiz description..." prefRowCount="4" />
+            <Label text="Description:" style="-fx-font-size: 16px; -fx-text-fill: #34495e;" />
+            <TextArea fx:id="quizDescriptionField" promptText="Enter quiz description..." prefRowCount="3" styleClass="text-area"/>
 
-            <Label text="Number of Questions:" style="-fx-font-size: 16px; -fx-text-fill: #34495e;"/>
-            <TextField fx:id="numQuestionsField" promptText="Enter number..." />
+            <Button fx:id="btnAddQuestion" text="+ Add Question" styleClass="sidebar-button"/>
 
-            <FlowPane fx:id="quizContainer" hgap="10" vgap="10" prefWrapLength="500" />
+            <ScrollPane fitToWidth="true" style="-fx-background-color: transparent;">
+                <VBox fx:id="quizContainer" spacing="10" style="-fx-padding: 10;" />
+            </ScrollPane>
 
             <HBox spacing="10" alignment="CENTER_RIGHT" style="-fx-padding: 20 0 0 0;">
                 <Button fx:id="btnCancel" text="Cancel" styleClass="sidebar-button"/>
@@ -33,5 +34,4 @@
             </HBox>
         </VBox>
     </center>
-
 </BorderPane>

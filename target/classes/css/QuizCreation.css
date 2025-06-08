@@ -26,3 +26,11 @@
 .sidebar-button:hover {
     -fx-background-color: #34495e;
 }
+
+.question-block {
+    -fx-border-color: #dcdde1;
+    -fx-border-radius: 5;
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 5;
+    -fx-padding: 10;
+}

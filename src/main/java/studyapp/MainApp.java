@@ -5,7 +5,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import studyapp.util.DatabaseManager;
 
 public class MainApp extends Application {
     @Override
@@ -15,16 +14,13 @@ public class MainApp extends Application {
         scene.getStylesheets().add(getClass().getResource("/css/Login.css").toExternalForm());
 
         stage.setTitle("StudyApp - Login");
-        stage.setMaximized(true);
         stage.setScene(scene);
-        stage.setWidth(400);
-        stage.setHeight(300);
+        stage.setMaximized(true);
         stage.show();
     }
 
 
     public static void main(String[] args) {
-        DatabaseManager.initializeDatabase();
         launch();
     }
 }
