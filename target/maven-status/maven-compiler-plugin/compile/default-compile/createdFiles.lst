@@ -1,4 +1,9 @@
+studyapp\ui\QuestionBlock.class
 studyapp\util\DatabaseManager.class
 studyapp\controller\AdminController.class
+studyapp\controller\CreateLessonsController.class
 studyapp\controller\LoginController.class
 studyapp\controller\MainController.class
+studyapp\util\OptionDAO.class
+studyapp\MainApp.class
+studyapp\util\QuestionDAO.class

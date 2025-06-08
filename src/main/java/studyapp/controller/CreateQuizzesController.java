@@ -10,8 +10,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import studyapp.model.Quiz;
+import studyapp.util.QuizDAO;
 
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.List;
 
 import javafx.event.EventHandler;
 
@@ -22,6 +26,7 @@ public class CreateQuizzesController {
 
     @FXML
     private void initialize() {
+        quizContainer.getChildren().clear();
         addCreateQuizCard();
         loadQuizCards();
     }
@@ -51,12 +56,16 @@ public class CreateQuizzesController {
     }
 
     private void loadQuizCards() {
-        for (int i = 0; i < 5; i++) {
-            VBox quizCard = createCard("Quiz " + (i + 1), "#2c3e50", null);
-            quizContainer.getChildren().add(quizCard);
+        try {
+            List<Quiz> quizzes = new QuizDAO().getAllQuizzes(); // Make sure this returns oldest first
+            for (Quiz quiz : quizzes) {
+                VBox quizCard = createCard(quiz.getTitle(), "#2c3e50", event -> openQuizDetailsWindow(quiz));
+                quizContainer.getChildren().add(quizCard);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
-
     private VBox createCard(String text, String color, EventHandler<MouseEvent> clickHandler) {
         VBox box = new VBox();
         box.setAlignment(Pos.CENTER);
@@ -69,5 +78,9 @@ public class CreateQuizzesController {
         box.getChildren().add(label);
         if (clickHandler != null) box.setOnMouseClicked(clickHandler);
         return box;
+    }
+
+    private void openQuizDetailsWindow(Quiz quiz) {
+        System.out.println("Opening quiz: " + quiz.getTitle());
     }
 }

@@ -5,6 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+import studyapp.model.Quiz;
+
 
 public class QuizDAO {
 
@@ -21,5 +25,21 @@ public class QuizDAO {
             }
         }
         return -1;
+    }
+
+       public List<Quiz> getAllQuizzes() throws SQLException {
+        List<Quiz> quizzes = new ArrayList<>();
+        String sql = "SELECT id, title FROM quizzes ORDER BY created_at ASC";
+
+        try (Connection conn = DatabaseManager.connect();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                Quiz quiz = new Quiz(rs.getInt("id"), rs.getString("title"));
+                quizzes.add(quiz);
+            }
+        }
+        return quizzes;
     }
 }
