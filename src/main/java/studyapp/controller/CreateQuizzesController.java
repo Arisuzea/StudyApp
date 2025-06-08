@@ -41,7 +41,7 @@ public class CreateQuizzesController {
             scene.getStylesheets().add(getClass().getResource("/css/QuizCreation.css").toExternalForm());
 
             stage.setScene(scene);
-            stage.setTitle("Create New Quiz");
+            stage.setTitle("StudyApp - Create New Quiz");
             stage.setMaximized(true);
             stage.show();
 
