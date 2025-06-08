@@ -1,11 +1,18 @@
 package studyapp.controller;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+
+import java.io.IOException;
+
 import javafx.event.EventHandler;
 
 public class CreateQuizzesController {
@@ -20,15 +27,32 @@ public class CreateQuizzesController {
     }
 
     private void addCreateQuizCard() {
-        VBox card = createCard("+", "#3b82f6", event -> {
-            System.out.println("Create new quiz clicked");
-        });
+        VBox card = createCard("+", "#2c3e50", event -> openQuizCreation());
         quizContainer.getChildren().add(card);
+    }
+
+    private void openQuizCreation() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/QuizCreation.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) quizContainer.getScene().getWindow();
+
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("/css/QuizCreation.css").toExternalForm());
+
+            stage.setScene(scene);
+            stage.setTitle("Create New Quiz");
+            stage.setMaximized(true);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void loadQuizCards() {
         for (int i = 0; i < 5; i++) {
-            VBox quizCard = createCard("Quiz " + (i + 1), "#60a5fa", null);
+            VBox quizCard = createCard("Quiz " + (i + 1), "#2c3e50", null);
             quizContainer.getChildren().add(quizCard);
         }
     }

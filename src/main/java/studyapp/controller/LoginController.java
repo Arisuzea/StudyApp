@@ -51,8 +51,7 @@ public class LoginController {
                         Stage stage = (Stage) usernameField.getScene().getWindow();
                         stage.setScene(scene);
                         stage.setTitle(isAdmin ? "StudyApp - Admin Dashboard" : "StudyApp - OOP Learning");
-                        stage.setWidth(900);
-                        stage.setHeight(600);
+                        stage.setMaximized(true);
                         stage.centerOnScreen();
                     } else {
                         errorLabel.setText("Invalid username or password.");

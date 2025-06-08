@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/20" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="studyapp.controller.QuizCreationController"
+            styleClass="root">
+
+    <top>
+        <HBox spacing="10" style="-fx-padding: 20; -fx-background-color: #2c3e50; -fx-alignment: center-left;">
+            <Label text="Create New Quiz" style="-fx-text-fill: #ecf0f1; -fx-font-size: 24px; -fx-font-weight: bold;"/>
+        </HBox>
+    </top>
+
+    <center>
+        <VBox spacing="15" style="-fx-padding: 30; -fx-background-color: white;" maxWidth="600" maxHeight="800" BorderPane.alignment="CENTER">
+
+            <Label text="Quiz Title:" style="-fx-font-size: 16px; -fx-text-fill: #34495e;"/>
+            <TextField fx:id="quizTitleField" promptText="Enter quiz title..." />
+
+            <Label text="Description:" style="-fx-font-size: 16px; -fx-text-fill: #34495e;"/>
+            <TextArea fx:id="quizDescriptionField" promptText="Enter quiz description..." prefRowCount="4" />
+
+            <Label text="Number of Questions:" style="-fx-font-size: 16px; -fx-text-fill: #34495e;"/>
+            <TextField fx:id="numQuestionsField" promptText="Enter number..." />
+
+            <FlowPane fx:id="quizContainer" hgap="10" vgap="10" prefWrapLength="500" />
+
+            <HBox spacing="10" alignment="CENTER_RIGHT" style="-fx-padding: 20 0 0 0;">
+                <Button fx:id="btnCancel" text="Cancel" styleClass="sidebar-button"/>
+                <Button fx:id="btnSave" text="Save Quiz" styleClass="sidebar-button"/>
+            </HBox>
+        </VBox>
+    </center>
+
+</BorderPane>

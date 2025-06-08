@@ -4,13 +4,20 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox spacing="10" alignment="CENTER" xmlns="http://javafx.com/javafx/20"
-      xmlns:fx="http://javafx.com/fxml" fx:controller="studyapp.controller.LoginController">
-    <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
+<StackPane xmlns="http://javafx.com/javafx/20"
+           xmlns:fx="http://javafx.com/fxml"
+           fx:controller="studyapp.controller.LoginController"
+           styleClass="root">
 
-    <Label text="Login" style="-fx-font-size: 18px;"/>
-    <TextField fx:id="usernameField" promptText="Username"/>
-    <PasswordField fx:id="passwordField" promptText="Password"/>
-    <Button text="Login" onAction="#handleLogin"/>
-    <Label fx:id="errorLabel" textFill="red"/>
-</VBox>
+    <VBox fx:id="loginContainer" styleClass="login-container" alignment="CENTER" spacing="15">
+        <Label text="StudyApp" styleClass="app-title" />
+        <Label text="Login" styleClass="login-title" />
+
+        <TextField fx:id="usernameField" promptText="Username" styleClass="text-field" />
+        <PasswordField fx:id="passwordField" promptText="Password" styleClass="password-field" />
+
+        <Button text="Login" onAction="#handleLogin" styleClass="login-button" />
+
+        <Label fx:id="errorLabel" styleClass="error-label" />
+    </VBox>
+</StackPane>

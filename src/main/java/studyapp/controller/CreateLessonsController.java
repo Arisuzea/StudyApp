@@ -20,7 +20,7 @@ public class CreateLessonsController {
     }
 
     private void addCreateLessonCard() {
-        VBox card = createCard("+", "#3b82f6", event -> {
+        VBox card = createCard("+", "#2c3e50", event -> {
             System.out.println("Create new lesson clicked");
         });
         lessonContainer.getChildren().add(card);
@@ -28,7 +28,7 @@ public class CreateLessonsController {
 
     private void loadLessonCards() {
         for (int i = 0; i < 5; i++) {
-            VBox lessonCard = createCard("Lesson " + (i + 1), "#60a5fa", null);
+            VBox lessonCard = createCard("Lesson " + (i + 1), "#2c3e50", null);
             lessonContainer.getChildren().add(lessonCard);
         }
     }

@@ -15,6 +15,7 @@ public class MainApp extends Application {
         scene.getStylesheets().add(getClass().getResource("/css/Login.css").toExternalForm());
 
         stage.setTitle("StudyApp - Login");
+        stage.setMaximized(true);
         stage.setScene(scene);
         stage.setWidth(400);
         stage.setHeight(300);
