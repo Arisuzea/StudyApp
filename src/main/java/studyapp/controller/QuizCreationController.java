@@ -25,12 +25,10 @@ public class QuizCreationController {
     @FXML
     private void initialize() {
         btnCancel.setOnAction(e -> {
-            // Close the quiz creation window
             btnCancel.getScene().getWindow().hide();
         });
 
         btnSave.setOnAction(e -> {
-            // TODO: Add save quiz logic here (validation, database insertion, etc.)
             System.out.println("Saving quiz: " + quizTitleField.getText());
         });
     }

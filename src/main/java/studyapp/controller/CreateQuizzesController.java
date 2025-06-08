@@ -27,23 +27,23 @@ public class CreateQuizzesController {
     }
 
     private void addCreateQuizCard() {
-        VBox card = createCard("+", "#2c3e50", event -> openQuizCreation());
+        VBox card = createCard("+", "#2c3e50", event -> openQuizCreationWindow());
         quizContainer.getChildren().add(card);
     }
 
-    private void openQuizCreation() {
+    private void openQuizCreationWindow() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/QuizCreation.fxml"));
             Parent root = loader.load();
 
-            Stage stage = (Stage) quizContainer.getScene().getWindow();
-
+            Stage stage = new Stage();
             Scene scene = new Scene(root);
             scene.getStylesheets().add(getClass().getResource("/css/QuizCreation.css").toExternalForm());
 
             stage.setScene(scene);
             stage.setTitle("Create New Quiz");
             stage.setMaximized(true);
+            stage.show();
 
         } catch (IOException e) {
             e.printStackTrace();
