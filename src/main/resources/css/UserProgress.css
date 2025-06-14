@@ -1,0 +1,77 @@
+.root {
+    -fx-font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    -fx-background-color: #f9f9fb;
+}
+
+/* Sidebar */
+.sidebar {
+    -fx-background-color: #1f2937; /* darker slate */
+    -fx-padding: 20;
+}
+
+.sidebar-title {
+    -fx-text-fill: #e5e7eb; /* light gray */
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-padding: 0 0 15 0;
+}
+
+.sidebar Button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #cbd5e1; /* soft slate */
+    -fx-font-size: 14px;
+    -fx-padding: 10 20;
+    -fx-cursor: hand;
+    -fx-border-width: 0 0 1 0;
+    -fx-border-color: #374151; /* border bottom */
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+}
+
+.sidebar Button:hover {
+    -fx-text-fill: #ffffff;
+    -fx-background-color: #374151;
+}
+
+/* Main Content */
+.content-pane {
+    -fx-padding: 25;
+}
+
+.section-title {
+    -fx-font-size: 22px;
+    -fx-text-fill: #1f2937;
+    -fx-font-weight: bold;
+}
+
+/* Table styling */
+.table-view {
+    -fx-border-color: transparent;
+    -fx-background-color: #ffffff;
+    -fx-table-cell-border-color: #e5e7eb;
+    -fx-padding: 5;
+}
+
+.table-view .column-header {
+    -fx-background-color: #f3f4f6;
+    -fx-text-fill: #374151;
+    -fx-font-weight: bold;
+}
+
+.table-view .table-cell {
+    -fx-text-fill: #1f2937;
+}
+
+/* Button */
+#btnViewDetails {
+    -fx-background-color: #3b82f6; /* blue */
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 10 20;
+    -fx-background-radius: 5;
+}
+
+#btnViewDetails:hover {
+    -fx-background-color: #2563eb;
+}

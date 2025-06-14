@@ -47,10 +47,23 @@ public class AdminController {
     }
 
     private void showProgress() {
-        welcomeLabel.setText("Progress will be here.");
-    }
-
-    private void resetToMainContent() {
-        welcomeLabel.setText("Welcome Admin!");
+    try {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/UserProgress.fxml"));
+        Parent userProgressView = loader.load();
+        contentPane.getChildren().setAll(userProgressView);
+    } catch (IOException e) {
+        e.printStackTrace();
     }
 }
+
+    private void resetToMainContent() {
+    try {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/AdminDashboard.fxml"));
+        Parent userProgressView = loader.load();
+        contentPane.getChildren().setAll(userProgressView);
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
+}
+

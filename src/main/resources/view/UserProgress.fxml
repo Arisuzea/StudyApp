@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.geometry.Insets?>
+
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="studyapp.controller.UserProgressController"
+            stylesheets="@/css/UserProgress.css">
+
+    <left>
+        <VBox spacing="10">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <Label text="Users" styleClass="section-title"/>
+            <TextField fx:id="searchField" promptText="Search users..."/>
+            <ListView fx:id="userList"/>
+        </VBox>
+    </left>
+
+    <center>
+        <VBox spacing="10">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <Label fx:id="userNameLabel" styleClass="section-title"/>
+            <TableView fx:id="quizTable" prefHeight="300">
+                <columns>
+                    <TableColumn fx:id="quizCol" text="Quiz"/>
+                    <TableColumn fx:id="scoreCol" text="Score"/>
+                    <TableColumn fx:id="statusCol" text="Status"/>
+                    <TableColumn fx:id="dateCol" text="Date Taken"/>
+                </columns>
+            </TableView>
+
+            <Button fx:id="btnViewDetails" text="View Details"/>
+        </VBox>
+    </center>
+
+</BorderPane>
