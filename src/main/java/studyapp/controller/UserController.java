@@ -1,6 +1,10 @@
 package studyapp.controller;
 
+import java.io.IOException;
+
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
@@ -23,8 +27,19 @@ public class UserController {
     }
 
     private void showLessons() {
-        welcomeLabel.setText("Lessons will be here.");
+    try {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/User - Lessons.fxml"));
+        Parent lessonsView = loader.load();
+
+        // Inject the contentPane into UserLessonsController
+        UserLessonsController controller = loader.getController();
+        controller.setContentPane(contentPane);
+
+        contentPane.getChildren().setAll(lessonsView);
+    } catch (IOException e) {
+        e.printStackTrace();
     }
+}
 
     private void showQuizzes() {
         welcomeLabel.setText("Quizzes will be here.");
