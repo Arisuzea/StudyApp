@@ -51,10 +51,10 @@ public class RegisterController {
     @FXML
     private void goToLogin() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Login.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/General - Login.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root);
-            scene.getStylesheets().add(getClass().getResource("/css/Login.css").toExternalForm());
+            scene.getStylesheets().add(getClass().getResource("/css/General - Login.css").toExternalForm());
 
             Stage stage = (Stage) usernameField.getScene().getWindow();
             stage.setScene(scene);

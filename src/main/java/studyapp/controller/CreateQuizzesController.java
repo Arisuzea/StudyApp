@@ -38,12 +38,12 @@ public class CreateQuizzesController {
 
     private void openQuizCreationWindow() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/QuizCreation.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Admin - QuizCreation.fxml"));
             Parent root = loader.load();
 
             Stage stage = new Stage();
             Scene scene = new Scene(root);
-            scene.getStylesheets().add(getClass().getResource("/css/QuizCreation.css").toExternalForm());
+            scene.getStylesheets().add(getClass().getResource("/css/Admin - QuizCreation.css").toExternalForm());
 
             stage.setScene(scene);
             stage.setTitle("StudyApp - Create New Quiz");
@@ -81,6 +81,25 @@ public class CreateQuizzesController {
     }
 
     private void openQuizDetailsWindow(Quiz quiz) {
-        System.out.println("Opening quiz: " + quiz.getTitle());
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Admin - QuizCreation.fxml"));
+            Parent root = loader.load();
+
+            QuizCreationController controller = loader.getController();
+            controller.loadQuizForEditing(quiz.getId(), quiz.getTitle(), quiz.getDescription()); // FIX: load for editing
+
+            Stage stage = new Stage();
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("/css/Admin - QuizCreation.css").toExternalForm());
+
+            stage.setScene(scene);
+            stage.setTitle("StudyApp - Edit Quiz");
+            stage.setMaximized(true);
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
 }

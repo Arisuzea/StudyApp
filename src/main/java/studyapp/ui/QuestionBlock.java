@@ -1,63 +1,100 @@
 package studyapp.ui;
 
-import javafx.geometry.Pos;
+import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
+import java.util.List;
+
 public class QuestionBlock extends VBox {
 
-    private final TextField questionField = new TextField();
-    private final TextField[] optionFields = new TextField[4];
-    private final ToggleGroup toggleGroup = new ToggleGroup();
+    private final TextField questionField;
+    private final TextField[] optionFields;
+    private final ToggleGroup toggleGroup;
 
     public QuestionBlock() {
         setSpacing(10);
-        getStyleClass().add("question-block");
+        setPadding(new Insets(10));
+        setStyle("-fx-border-color: #bdc3c7; -fx-border-width: 2px; -fx-background-color: #ecf0f1; -fx-border-radius: 10; -fx-background-radius: 10;");
 
-        questionField.setPromptText("Question text");
-        questionField.getStyleClass().add("text-field");
-        getChildren().add(new Label("Question:"));
-        getChildren().add(questionField);
-        getChildren().add(new Label("Options:"));
-        char label = 'A';
+        Label questionLabel = new Label("Question:");
+        questionField = new TextField();
+        questionField.setPromptText("Enter question text...");
+        getChildren().addAll(questionLabel, questionField);
+
+        optionFields = new TextField[4];
+        toggleGroup = new ToggleGroup();
+
         for (int i = 0; i < 4; i++) {
-            HBox optionRow = new HBox(10);
-            optionRow.setAlignment(Pos.CENTER_LEFT);
+            char label = (char) ('A' + i);
+            HBox optionBox = new HBox(10);
+            optionBox.setPadding(new Insets(5));
 
-            RadioButton radio = new RadioButton(String.valueOf(label));
-            radio.setToggleGroup(toggleGroup);
-            radio.setMinWidth(30);
+            RadioButton radioButton = new RadioButton(String.valueOf(label));
+            radioButton.setToggleGroup(toggleGroup);
 
-            TextField option = new TextField();
-            option.setPromptText("Option " + label);
-            option.getStyleClass().add("text-field");
-            optionFields[i] = option;
+            TextField optionField = new TextField();
+            optionField.setPromptText("Option " + label);
 
-            optionRow.getChildren().addAll(radio, option);
-            getChildren().add(optionRow);
-            label++;
+            optionFields[i] = optionField;
+
+            optionBox.getChildren().addAll(radioButton, optionField);
+            getChildren().add(optionBox);
         }
     }
 
+    // ---------------------------
+    // Getters for saving
+    // ---------------------------
+
     public String getQuestionText() {
-        return questionField.getText();
+        return questionField.getText().trim();
     }
 
     public String[] getOptions() {
-        String[] opts = new String[4];
+        String[] options = new String[4];
         for (int i = 0; i < 4; i++) {
-            opts[i] = optionFields[i].getText();
+            options[i] = optionFields[i].getText().trim();
         }
-        return opts;
+        return options;
     }
 
     public char getCorrectOption() {
         for (Toggle toggle : toggleGroup.getToggles()) {
-            if (toggle.isSelected()) {
-                RadioButton rb = (RadioButton) toggle;
-                return rb.getText().charAt(0);
+            RadioButton rb = (RadioButton) toggle;
+            if (rb.isSelected()) {
+                return rb.getText().charAt(0); // 'A', 'B', etc.
             }
         }
-        return ' ';
+        return ' '; // return blank if none selected
+    }
+
+    // ---------------------------
+    // Setters for loading
+    // ---------------------------
+
+    public void setQuestionText(String text) {
+        questionField.setText(text);
+    }
+
+    public void setOptions(String[] options) {
+        for (int i = 0; i < 4 && i < options.length; i++) {
+            optionFields[i].setText(options[i]);
+        }
+    }
+
+    // Overload to support List<String> directly
+    public void setOptions(List<String> options) {
+        setOptions(options.toArray(new String[0]));
+    }
+
+    public void setCorrectOption(char label) {
+        for (Toggle toggle : toggleGroup.getToggles()) {
+            RadioButton rb = (RadioButton) toggle;
+            if (rb.getText().charAt(0) == label) {
+                rb.setSelected(true);
+                break;
+            }
+        }
     }
 }

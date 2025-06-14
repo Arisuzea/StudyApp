@@ -40,8 +40,8 @@ public class LoginController {
                         boolean isAdmin = rs.getBoolean("is_admin");
                         errorLabel.setText(""); 
 
-                        String fxmlPath = isAdmin ? "/view/AdminDashboard.fxml" : "/view/MainApp.fxml";
-                        String cssPath = isAdmin ? "/css/AdminDashboard.css" : "/css/MainApp.css";
+                        String fxmlPath = isAdmin ? "/view/Admin - Dashboard.fxml" : "/view/User - Dashboard.fxml";
+                        String cssPath = isAdmin ? "/css/Admin - Dashboard.css" : "/css/User - Dashboard.css";
 
                         FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
                         Parent root = loader.load();
@@ -70,10 +70,10 @@ public class LoginController {
     }
     public void goToRegister() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Register.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/General - Register.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root);
-            scene.getStylesheets().add(getClass().getResource("/css/Login.css").toExternalForm());
+            scene.getStylesheets().add(getClass().getResource("/css/General - Login.css").toExternalForm());
 
             Stage stage = (Stage) usernameField.getScene().getWindow();
             stage.setScene(scene);

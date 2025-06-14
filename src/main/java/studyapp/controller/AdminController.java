@@ -28,7 +28,7 @@ public class AdminController {
 
     private void loadCreateLessons() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/CreateLessons.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Admin - CreateLessons.fxml"));
             Parent createLessonsView = loader.load();
             contentPane.getChildren().setAll(createLessonsView);
         } catch (IOException e) {
@@ -38,7 +38,7 @@ public class AdminController {
 
     private void loadCreateQuizzes() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/CreateQuizzes.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Admin - CreateQuizzes.fxml"));
             Parent createQuizzesView = loader.load();
             contentPane.getChildren().setAll(createQuizzesView);
         } catch (IOException e) {
@@ -48,7 +48,7 @@ public class AdminController {
 
     private void showProgress() {
     try {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/UserProgress.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Admin - UserProgress.fxml"));
         Parent userProgressView = loader.load();
         contentPane.getChildren().setAll(userProgressView);
     } catch (IOException e) {
@@ -58,7 +58,7 @@ public class AdminController {
 
     private void resetToMainContent() {
     try {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/AdminDashboard.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Admin - Dashboard.fxml"));
         Parent userProgressView = loader.load();
         contentPane.getChildren().setAll(userProgressView);
     } catch (IOException e) {

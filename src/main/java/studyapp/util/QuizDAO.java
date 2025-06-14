@@ -1,45 +1,70 @@
+// src/main/java/studyapp/util/QuizDAO.java
 package studyapp.util;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import studyapp.model.Quiz;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import studyapp.model.Quiz;
-
 
 public class QuizDAO {
 
-    public int insertQuiz(String title) throws SQLException {
-        String sql = "INSERT INTO quizzes (title, created_at, updated_at) VALUES (?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)";
+    public int insertQuiz(String title, String description) throws SQLException {
+        String sql = "INSERT INTO quizzes (title, description, created_at, updated_at) VALUES (?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)";
         try (Connection conn = DatabaseManager.connect();
              PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-
             stmt.setString(1, title);
+            stmt.setString(2, description);
             stmt.executeUpdate();
-            ResultSet rs = stmt.getGeneratedKeys();
-            if (rs.next()) {
-                return rs.getInt(1);
+            try (ResultSet rs = stmt.getGeneratedKeys()) {
+                if (rs.next()) return rs.getInt(1);
             }
         }
         return -1;
     }
 
-       public List<Quiz> getAllQuizzes() throws SQLException {
-        List<Quiz> quizzes = new ArrayList<>();
-        String sql = "SELECT id, title FROM quizzes ORDER BY created_at ASC";
+    public void updateQuiz(int id, String title, String description) throws SQLException {
+        String sql = "UPDATE quizzes SET title = ?, description = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?";
+        try (Connection conn = DatabaseManager.connect();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, title);
+            stmt.setString(2, description);
+            stmt.setInt(3, id);
+            stmt.executeUpdate();
+        }
+    }
 
+    public List<Quiz> getAllQuizzes() throws SQLException {
+        List<Quiz> list = new ArrayList<>();
+        String sql = "SELECT id, title, description FROM quizzes ORDER BY created_at ASC";
         try (Connection conn = DatabaseManager.connect();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
-
             while (rs.next()) {
-                Quiz quiz = new Quiz(rs.getInt("id"), rs.getString("title"));
-                quizzes.add(quiz);
+                list.add(new Quiz(
+                    rs.getInt("id"),
+                    rs.getString("title"),
+                    rs.getString("description")
+                ));
             }
         }
-        return quizzes;
+        return list;
+    }
+
+    public Quiz getQuizById(int quizId) throws SQLException {
+        String sql = "SELECT id, title, description FROM quizzes WHERE id = ?";
+        try (Connection conn = DatabaseManager.connect();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, quizId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return new Quiz(
+                        rs.getInt("id"),
+                        rs.getString("title"),
+                        rs.getString("description")
+                    );
+                }
+            }
+        }
+        return null;
     }
 }

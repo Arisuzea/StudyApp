@@ -17,6 +17,9 @@ public class QuizCreationController {
     @FXML private Button btnCancel;
     @FXML private Button btnAddQuestion;
 
+    private int quizId = -1;
+    private boolean isEditMode = false;
+
     @FXML
     private void initialize() {
         btnCancel.setOnAction(e -> btnCancel.getScene().getWindow().hide());
@@ -30,9 +33,16 @@ public class QuizCreationController {
             try {
                 String title = quizTitleField.getText();
                 if (title.isBlank()) return;
-                int quizId = new QuizDAO().insertQuiz(title);
+
                 var qDAO = new QuestionDAO();
                 var oDAO = new OptionDAO();
+
+                if (isEditMode) {
+                    new QuizDAO().updateQuiz(quizId, title, quizDescriptionField.getText());
+                    qDAO.deleteQuestionsByQuizId(quizId);
+                } else {
+                    quizId = new QuizDAO().insertQuiz(title, quizDescriptionField.getText());
+                }
 
                 for (var node : quizContainer.getChildren()) {
                     if (node instanceof QuestionBlock qb) {
@@ -49,4 +59,34 @@ public class QuizCreationController {
             }
         });
     }
+
+    public void loadQuizForEditing(int quizId, String title, String description) {
+        this.quizId = quizId;
+        this.isEditMode = true;
+
+        quizTitleField.setText(title);
+        quizDescriptionField.setText(description);
+
+        quizContainer.getChildren().clear(); // Prevent duplicate blocks
+
+        var qDAO = new QuestionDAO();
+        var oDAO = new OptionDAO();
+
+        try {
+            var questions = qDAO.getQuestionsByQuizId(quizId);
+            for (var question : questions) {
+                var options = oDAO.getOptionsByQuestionId(question.getId());
+
+                QuestionBlock qb = new QuestionBlock();
+                qb.setQuestionText(question.getQuestionText());
+                qb.setCorrectOption(question.getCorrectOption());
+                qb.setOptions(options);
+
+                quizContainer.getChildren().add(qb);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }
