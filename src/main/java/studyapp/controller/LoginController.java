@@ -52,6 +52,11 @@ public class LoginController {
                         stage.setScene(scene);
                         stage.setTitle(isAdmin ? "StudyApp - Admin Dashboard" : "StudyApp - OOP Learning");
                         stage.setMaximized(true);
+                        javafx.geometry.Rectangle2D screenBounds = javafx.stage.Screen.getPrimary().getVisualBounds();
+                        stage.setX(screenBounds.getMinX());
+                        stage.setY(screenBounds.getMinY());
+                        stage.setWidth(screenBounds.getWidth());
+                        stage.setHeight(screenBounds.getHeight());
                         stage.centerOnScreen();
                     } else {
                         errorLabel.setText("Invalid username or password.");
@@ -60,6 +65,28 @@ public class LoginController {
             }
         } catch (Exception e) {
             errorLabel.setText("Login failed: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+    public void goToRegister() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Register.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("/css/Login.css").toExternalForm());
+
+            Stage stage = (Stage) usernameField.getScene().getWindow();
+            stage.setScene(scene);
+            stage.setTitle("StudyApp - Register");
+            stage.setMaximized(true);
+            javafx.geometry.Rectangle2D screenBounds = javafx.stage.Screen.getPrimary().getVisualBounds();
+            stage.setX(screenBounds.getMinX());
+            stage.setY(screenBounds.getMinY());
+            stage.setWidth(screenBounds.getWidth());
+            stage.setHeight(screenBounds.getHeight());
+            stage.centerOnScreen();
+        } catch (Exception e) {
+            errorLabel.setText("Could not load register page.");
             e.printStackTrace();
         }
     }

@@ -13,7 +13,7 @@
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-        <javafx.version>20</javafx.version>
+        <javafx.version>17</javafx.version>
     </properties>
 
     <pluginRepositories>
@@ -67,14 +67,29 @@
                 </configuration>
             </plugin>
 
-            <!-- Exec Plugin -->
+            <!-- Shade Plugin to create fat JAR -->
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>3.1.0</version>
-                <configuration>
-                    <mainClass>studyapp.MainApp</mainClass>
-                </configuration>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.5.0</version>
+                <executions>
+                    <execution>
+                    <phase>package</phase>
+                    <goals>
+                        <goal>shade</goal>
+                    </goals>
+                    <configuration>
+                        <!-- Attach shaded jar as a classifier instead of replacing the main jar -->
+                        <shadedArtifactAttached>true</shadedArtifactAttached>
+                        <shadedClassifierName>shaded</shadedClassifierName>
+                        <transformers>
+                        <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                            <mainClass>studyapp.MainApp</mainClass>
+                        </transformer>
+                        </transformers>
+                    </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

@@ -30,7 +30,6 @@ public class AdminController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/CreateLessons.fxml"));
             Parent createLessonsView = loader.load();
-            createLessonsView.getStylesheets().add(getClass().getResource("/css/CreateLessons.css").toExternalForm());
             contentPane.getChildren().setAll(createLessonsView);
         } catch (IOException e) {
             e.printStackTrace();
@@ -41,18 +40,17 @@ public class AdminController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/CreateQuizzes.fxml"));
             Parent createQuizzesView = loader.load();
-            createQuizzesView.getStylesheets().add(getClass().getResource("/css/CreateQuizzes.css").toExternalForm());
             contentPane.getChildren().setAll(createQuizzesView);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-
     private void showProgress() {
         welcomeLabel.setText("Progress will be here.");
     }
+
     private void resetToMainContent() {
         welcomeLabel.setText("Welcome Admin!");
-}
+    }
 }

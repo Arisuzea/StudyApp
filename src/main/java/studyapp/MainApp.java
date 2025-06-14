@@ -18,8 +18,6 @@ public class MainApp extends Application {
         stage.setMaximized(true);
         stage.show();
     }
-
-
     public static void main(String[] args) {
         launch();
     }
