@@ -26,6 +26,11 @@ public class CreateQuizzesController {
 
     @FXML
     private void initialize() {
+        refreshQuizList();
+    }
+
+    // Extracted method to refresh the quiz cards
+    private void refreshQuizList() {
         quizContainer.getChildren().clear();
         addCreateQuizCard();
         loadQuizCards();
@@ -40,6 +45,10 @@ public class CreateQuizzesController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Admin - QuizCreation.fxml"));
             Parent root = loader.load();
+
+            // Get controller and set onRefresh callback
+            QuizCreationController controller = loader.getController();
+            controller.setOnRefresh(this::refreshQuizList);
 
             Stage stage = new Stage();
             Scene scene = new Scene(root);
@@ -66,6 +75,7 @@ public class CreateQuizzesController {
             e.printStackTrace();
         }
     }
+
     private VBox createCard(String text, String color, EventHandler<MouseEvent> clickHandler) {
         VBox box = new VBox();
         box.setAlignment(Pos.CENTER);
@@ -86,7 +96,10 @@ public class CreateQuizzesController {
             Parent root = loader.load();
 
             QuizCreationController controller = loader.getController();
-            controller.loadQuizForEditing(quiz.getId(), quiz.getTitle(), quiz.getDescription()); // FIX: load for editing
+            controller.loadQuizForEditing(quiz.getId(), quiz.getTitle(), quiz.getDescription());
+
+            // Set auto-refresh callback on edit window as well
+            controller.setOnRefresh(this::refreshQuizList);
 
             Stage stage = new Stage();
             Scene scene = new Scene(root);
@@ -101,5 +114,4 @@ public class CreateQuizzesController {
             e.printStackTrace();
         }
     }
-
 }

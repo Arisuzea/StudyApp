@@ -7,7 +7,6 @@ import java.util.List;
 
 public class QuestionDAO {
 
-    // Insert a question into the database
     public int insertQuestion(int quizId, String questionText, char correctOption) throws SQLException {
         String sql = "INSERT INTO questions (quiz_id, question_text, correct_option) VALUES (?, ?, ?)";
         try (Connection conn = DatabaseManager.connect();
@@ -26,7 +25,6 @@ public class QuestionDAO {
         return -1;
     }
 
-    // Delete all questions under a specific quiz
     public void deleteQuestionsByQuizId(int quizId) throws SQLException {
         String sql = "DELETE FROM questions WHERE quiz_id = ?";
         try (Connection conn = DatabaseManager.connect();
@@ -36,7 +34,6 @@ public class QuestionDAO {
         }
     }
 
-    // Retrieve all questions belonging to a quiz
     public List<Question> getQuestionsByQuizId(int quizId) throws SQLException {
         List<Question> questions = new ArrayList<>();
         String sql = "SELECT id, question_text, correct_option FROM questions WHERE quiz_id = ?";
@@ -56,5 +53,21 @@ public class QuestionDAO {
         }
 
         return questions;
+    }
+
+    public void deleteQuestionsAndOptionsByQuizId(int quizId) throws SQLException {
+        String getQuestionsSql = "SELECT id FROM questions WHERE quiz_id = ?";
+        try (Connection conn = DatabaseManager.connect();
+             PreparedStatement getStmt = conn.prepareStatement(getQuestionsSql)) {
+            getStmt.setInt(1, quizId);
+            ResultSet rs = getStmt.executeQuery();
+
+            OptionDAO oDAO = new OptionDAO();
+            while (rs.next()) {
+                int questionId = rs.getInt("id");
+                oDAO.deleteOptionsByQuestionId(questionId);
+            }
+        }
+        deleteQuestionsByQuizId(quizId);
     }
 }

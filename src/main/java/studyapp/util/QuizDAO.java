@@ -1,4 +1,3 @@
-// src/main/java/studyapp/util/QuizDAO.java
 package studyapp.util;
 
 import studyapp.model.Quiz;
@@ -66,5 +65,15 @@ public class QuizDAO {
             }
         }
         return null;
+    }
+
+    public boolean deleteQuizById(int quizId) throws SQLException {
+        String sql = "DELETE FROM quizzes WHERE id = ?";
+        try (Connection conn = DatabaseManager.connect();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, quizId);
+            int affected = stmt.executeUpdate();
+            return affected > 0;
+        }
     }
 }

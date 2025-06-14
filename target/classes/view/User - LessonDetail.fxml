@@ -7,11 +7,20 @@
 <BorderPane xmlns:fx="http://javafx.com/fxml"
             xmlns="http://javafx.com/javafx/17"
             fx:controller="studyapp.controller.LessonDetailController"
-            styleClass="content-pane">
+            styleClass="content-pane"
+            stylesheets="@/css/User - LessonDetail.css">
 
     <!-- Top - Back Button -->
     <top>
-        <HBox padding="10" spacing="10" alignment="CENTER_LEFT">
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <padding>
+                <Insets>
+                    <top>10</top>
+                    <right>10</right>
+                    <bottom>10</bottom>
+                    <left>10</left>
+                </Insets>
+            </padding>
             <Button fx:id="btnBack" text="← Back"
                     style="-fx-background-color: #2c3e50; -fx-text-fill: white; -fx-font-size: 14px; -fx-cursor: hand;" />
         </HBox>
@@ -19,7 +28,16 @@
 
     <!-- Center - Lesson Content -->
     <center>
-        <VBox spacing="20" padding="20">
+        <VBox spacing="20">
+            <padding>
+                <Insets>
+                    <top>20</top>
+                    <right>20</right>
+                    <bottom>20</bottom>
+                    <left>20</left>
+                </Insets>
+            </padding>
+
             <Label fx:id="lblTitle"
                    style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"
                    wrapText="true" />

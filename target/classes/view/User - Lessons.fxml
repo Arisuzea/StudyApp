@@ -13,17 +13,15 @@
                 AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"
                 AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
 
-        <FlowPane fx:id="lessonContainer" hgap="20.0" vgap="20.0" alignment="TOP_LEFT">
+        <FlowPane fx:id="lessonContainer"
+                  hgap="20.0" vgap="20.0"
+                  alignment="TOP_LEFT"
+                  prefWrapLength="800.0">
             <padding>
-                <Insets>
-                    <top>20</top>
-                    <right>20</right>
-                    <bottom>20</bottom>
-                    <left>20</left>
-                </Insets>
+                <Insets top="20" right="20" bottom="20" left="20"/>
             </padding>
         </FlowPane>
-        
+
     </ScrollPane>
 
 </AnchorPane>

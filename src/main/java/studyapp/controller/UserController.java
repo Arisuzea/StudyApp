@@ -5,9 +5,11 @@ import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 
 public class UserController {
 
@@ -17,6 +19,7 @@ public class UserController {
     @FXML private StackPane contentPane;
     @FXML private Label welcomeLabel;
     @FXML private Label lblTitle;
+    @FXML private Button btnLogout; 
 
     @FXML
     public void initialize() {
@@ -24,6 +27,8 @@ public class UserController {
         btnQuizzes.setOnAction(e -> showQuizzes());
         btnProgress.setOnAction(e -> showProgress());
         lblTitle.setOnMouseClicked(e -> resetToMainContent());
+
+        btnLogout.setOnAction(e -> logout());
     }
 
     private void showLessons() {
@@ -50,5 +55,29 @@ public class UserController {
     }
     private void resetToMainContent() {
         welcomeLabel.setText("Welcome Admin!");
-}
+   }
+    private void logout() {
+        try {
+            // Load login FXML
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/General - Login.fxml"));
+            Parent loginView = loader.load();
+
+            // Get current stage and close it
+            Stage currentStage = (Stage) btnLogout.getScene().getWindow();
+            currentStage.close();
+
+            // Open a new stage for login
+            Stage loginStage = new Stage();
+            Scene loginScene = new Scene(loginView);
+            loginScene.getStylesheets().add(getClass().getResource("/css/General - Login.css").toExternalForm());
+
+            loginStage.setTitle("StudyApp - Login");
+            loginStage.setScene(loginScene);
+            loginStage.setMaximized(true);
+            loginStage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
