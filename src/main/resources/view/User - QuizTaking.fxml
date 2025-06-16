@@ -1,31 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.geometry.Insets?>
 
-<VBox xmlns:fx="http://javafx.com/fxml"
-      fx:controller="studyapp.controller.QuizTakingController"
-      spacing="20"
-      alignment="CENTER"
-      style="-fx-background-color: #ffffff;">
-    
-    <padding>
-        <Insets>
-            <top>40</top>
-            <right>40</right>
-            <bottom>40</bottom>
-            <left>40</left>
-        </Insets>
-    </padding>
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="studyapp.controller.QuizTakingController"
+            styleClass="quiz-taking-root"
+            stylesheets="@/css/User - QuizTaking.css">
 
-    <Label fx:id="timerLabel" style="-fx-font-size: 24px; -fx-text-fill: red;" />
-    <Label fx:id="questionLabel" wrapText="true" style="-fx-font-size: 22px; -fx-text-fill: #2c3e50;" />
+    <!-- Top bar -->
+    <top>
+        <HBox spacing="10" styleClass="top-bar">
+            <Label text="StudyApp - Quiz In Progress" styleClass="top-bar-title"/>
+        </HBox>
+    </top>
 
-    <VBox fx:id="optionContainer" spacing="10" />
+    <!-- Center quiz content -->
+    <center>
+        <VBox spacing="25" alignment="CENTER" styleClass="quiz-content">
+            <Label fx:id="timerLabel" styleClass="quiz-timer"/>
+            <Label fx:id="questionLabel" wrapText="true" styleClass="quiz-question"/>
 
-    <Button fx:id="nextButton" text="Next"
-            style="-fx-font-size: 18px; -fx-background-color: #3498db; -fx-text-fill: white;"
-            onAction="#nextQuestion" />
-</VBox>
+            <VBox fx:id="optionContainer" spacing="10"/>
 
+            <Button fx:id="nextButton" text="Next" onAction="#nextQuestion" styleClass="next-button"/>
+        </VBox>
+    </center>
+</BorderPane>

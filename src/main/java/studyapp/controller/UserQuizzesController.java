@@ -38,19 +38,24 @@ public class UserQuizzesController {
         }
     }
 
-    private VBox createCard(String text, String color, javafx.event.EventHandler<MouseEvent> onClick) {
-        VBox box = new VBox();
-        box.setAlignment(Pos.CENTER);
-        box.setPrefSize(243, 243);
-        box.setStyle("-fx-background-color: " + color + "; -fx-background-radius: 15; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 2, 2);");
+    private VBox createCard(String titleText, String color, javafx.event.EventHandler<MouseEvent> onClick) {
+        VBox card = new VBox();
+        card.setAlignment(Pos.CENTER);
+        card.setPrefSize(243, 243);
+        card.setStyle("-fx-background-color: #2c3e50; -fx-background-radius: 15; " +
+                    "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 2, 2);");
 
-        Label label = new Label(text);
-        label.setStyle("-fx-font-size: 24px; -fx-text-fill: white;");
+        Label title = new Label(titleText);
+        title.setStyle("-fx-font-size: 24px; -fx-text-fill: white;");
+        title.setWrapText(true);
+        title.setAlignment(Pos.CENTER);
+        title.setMaxWidth(Double.MAX_VALUE);
 
-        box.getChildren().add(label);
-        box.setOnMouseClicked(onClick);
-        return box;
+        card.getChildren().add(title);
+        card.setOnMouseClicked(onClick);
+        return card;
     }
+
 
     private void openQuizDetail(Quiz quiz) {
         try {

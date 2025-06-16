@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane xmlns:fx="http://javafx.com/fxml"
+           fx:controller="studyapp.controller.QuizResultPopupController"
+           styleClass="popup-root"
+           stylesheets="@/css/User - QuizPopup.css">
+
+    <VBox spacing="20" alignment="CENTER" styleClass="popup-container">
+
+        <!-- Header -->
+        <Label fx:id="titleLabel" text="Quiz Complete!" styleClass="popup-title"/>
+
+        <!-- Score -->
+        <Label fx:id="scoreLabel" styleClass="popup-score"/>
+
+        <!-- Description -->
+        <Label fx:id="messageLabel"
+               text="Your answers have been recorded successfully."
+               styleClass="popup-description" wrapText="true" maxWidth="300"/>
+
+        <!-- Button -->
+        <Button fx:id="closeButton"
+                text="Return to Dashboard"
+                onAction="#closePopup"
+                styleClass="popup-button"/>
+    </VBox>
+</StackPane>
+

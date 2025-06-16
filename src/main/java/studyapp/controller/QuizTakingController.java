@@ -3,16 +3,20 @@ package studyapp.controller;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import studyapp.model.Question;
 import studyapp.model.Quiz;
 import studyapp.util.UserAnswerDAO;
 import studyapp.util.DatabaseManager;
-import studyapp.util.ProgressDAO;
 import studyapp.util.Session;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -102,7 +106,7 @@ public class QuizTakingController {
 
             for (Question q : questions) {
                 char selectedChar = userAnswers.getOrDefault(q.getId(), ' ');
-                int selectedOptionId = getOptionId(q.getId(), selectedChar); // You need this
+                int selectedOptionId = getOptionId(q.getId(), selectedChar);
                 boolean isCorrect = selectedChar == q.getCorrectOption();
 
                 if (isCorrect) correctCount++;
@@ -118,14 +122,32 @@ public class QuizTakingController {
             e.printStackTrace();
         }
 
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Quiz Complete");
-        alert.setHeaderText("You scored: " + correctCount + "/" + questions.size());
-        alert.setContentText("Your answers have been recorded.");
-        alert.showAndWait();
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/User - QuizPopup.fxml"));
+            Parent popupRoot = loader.load();
 
-        nextButton.getScene().getWindow().hide();
+            QuizResultPopupController controller = loader.getController();
+            controller.setScore(correctCount, questions.size());
+
+            Stage popupStage = new Stage();
+            popupStage.setTitle("Quiz Complete");
+            popupStage.setScene(new Scene(popupRoot));
+            popupStage.setResizable(false);
+
+            Stage quizStage = (Stage) nextButton.getScene().getWindow();
+            controller.setQuizStage(quizStage); // Pass quiz window to popup
+
+            popupStage.initOwner(quizStage);
+            popupStage.initModality(javafx.stage.Modality.WINDOW_MODAL);
+            popupStage.setAlwaysOnTop(true);
+            popupStage.show();
+            popupStage.centerOnScreen();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
 
     private int getOptionId(int questionId, char label) throws SQLException {
         String sql = "SELECT id FROM options WHERE question_id = ? AND option_label = ?";

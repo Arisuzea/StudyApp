@@ -1,30 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Button?>
-<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
 
-<VBox xmlns:fx="http://javafx.com/fxml"
-      fx:controller="studyapp.controller.QuizDetailController"
-      spacing="20"
-      alignment="CENTER"
-      style="-fx-background-color: #ecf0f1;">
-      
-    <padding>
-        <Insets>
-            <top>40</top>
-            <right>40</right>
-            <bottom>40</bottom>
-            <left>40</left>
-        </Insets>
-    </padding>
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="studyapp.controller.QuizDetailController"
+            styleClass="quiz-detail-root"
+            stylesheets="@/css/User - QuizDetail.css">
 
-    <Label fx:id="titleLabel" style="-fx-font-size: 32px; -fx-text-fill: #2c3e50;" />
-    <Label fx:id="descriptionLabel" wrapText="true" style="-fx-font-size: 18px; -fx-text-fill: #34495e;" />
-    <Label fx:id="itemCountLabel" style="-fx-font-size: 18px; -fx-text-fill: #7f8c8d;" />
-    <Button fx:id="startButton" text="Start Quiz"
-            style="-fx-font-size: 20px; -fx-background-color: #2ecc71; -fx-text-fill: white;"
-            onAction="#startQuiz" />
-</VBox>
+    <!-- Top bar title -->
+    <top>
+        <HBox spacing="10" styleClass="top-bar">
+            <Label text="StudyApp - Pre-Quiz" styleClass="top-bar-title"/>
+        </HBox>
+    </top>
 
+    <!-- Main content center -->
+    <center>
+        <VBox spacing="20" alignment="CENTER" maxWidth="600" styleClass="quiz-content">
+            <Label fx:id="titleLabel" styleClass="quiz-title"/>
+            <Label fx:id="descriptionLabel" wrapText="true" styleClass="quiz-description"/>
+            <Label fx:id="itemCountLabel" styleClass="quiz-count"/>
+            <Button fx:id="startButton" text="Start Quiz" styleClass="start-button" onAction="#startQuiz"/>
+        </VBox>
+    </center>
+</BorderPane>
