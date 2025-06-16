@@ -5,10 +5,12 @@ import java.util.*;
 import studyapp.model.QuizProgress;
 
 public class ProgressDAO {
+    // Retrieves quiz progress for a user
     public static List<QuizProgress> getProgressByUser(int userId) {
         List<QuizProgress> progressList = new ArrayList<>();
         String sql = """
-            SELECT q.title, p.score, p.status, p.completed_at
+            SELECT q.title, p.score, p.status, p.completed_at,
+                   (SELECT COUNT(*) FROM questions WHERE quiz_id = p.quiz_id) AS total_questions
             FROM user_quiz_progress p
             JOIN quizzes q ON q.id = p.quiz_id
             WHERE p.user_id = ?
@@ -23,7 +25,8 @@ public class ProgressDAO {
                     rs.getString("title"),
                     rs.getInt("score"),
                     rs.getString("status"),
-                    rs.getString("completed_at")
+                    rs.getString("completed_at"),
+                    rs.getInt("total_questions")
                 ));
             }
         } catch (SQLException e) {

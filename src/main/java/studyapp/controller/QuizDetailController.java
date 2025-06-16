@@ -10,13 +10,13 @@ import javafx.stage.Stage;
 import studyapp.model.Question;
 import studyapp.model.Quiz;
 import studyapp.util.QuestionDAO;
+import studyapp.util.UIUtil;
 
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
 public class QuizDetailController {
-
     @FXML private Label titleLabel;
     @FXML private Label descriptionLabel;
     @FXML private Label itemCountLabel;
@@ -25,6 +25,7 @@ public class QuizDetailController {
     private Quiz quiz;
     private List<Question> questionList;
 
+    /** Sets the quiz and loads its details */
     public void setQuiz(Quiz quiz) {
         this.quiz = quiz;
         titleLabel.setText(quiz.getTitle());
@@ -41,6 +42,7 @@ public class QuizDetailController {
         }
     }
 
+    /** Starts the quiz for the user */
     @FXML
     private void startQuiz() {
         try {
@@ -51,14 +53,13 @@ public class QuizDetailController {
             controller.beginQuizSession(quiz, questionList);
 
             Stage stage = new Stage();
+            UIUtil.applyAppIcon(stage);
             stage.setTitle("Quiz: " + quiz.getTitle());
             stage.setScene(new Scene(root));
             stage.setMaximized(true);
             stage.show();
 
-            // Optionally close the detail screen
             startButton.getScene().getWindow().hide();
-
         } catch (IOException e) {
             e.printStackTrace();
         }

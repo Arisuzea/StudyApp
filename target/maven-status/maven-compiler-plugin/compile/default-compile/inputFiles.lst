@@ -1,9 +1,11 @@
 F:\StudyApp\src\main\java\studyapp\Initializer.java
 F:\StudyApp\src\main\java\studyapp\controller\UserController.java
+F:\StudyApp\src\main\java\studyapp\controller\UserOwnProgressController.java
 F:\StudyApp\src\main\java\studyapp\controller\QuizResultPopupController.java
 F:\StudyApp\src\main\java\studyapp\controller\RegisterController.java
 F:\StudyApp\src\main\java\studyapp\model\QuizProgress.java
 F:\StudyApp\src\main\java\studyapp\controller\QuizCreationController.java
+F:\StudyApp\src\main\java\studyapp\util\UIUtil.java
 F:\StudyApp\src\main\java\studyapp\controller\UserProgressController.java
 F:\StudyApp\src\main\java\studyapp\controller\UserQuizzesController.java
 F:\StudyApp\src\main\java\studyapp\util\UserAnswerDAO.java
@@ -19,6 +21,7 @@ F:\StudyApp\src\main\java\studyapp\controller\CreateQuizzesController.java
 F:\StudyApp\src\main\java\studyapp\model\Quiz.java
 F:\StudyApp\src\main\java\studyapp\model\User.java
 F:\StudyApp\src\main\java\studyapp\controller\LessonCreationController.java
+F:\StudyApp\src\main\java\studyapp\controller\CustomAlertController.java
 F:\StudyApp\src\main\java\studyapp\model\Lesson.java
 F:\StudyApp\src\main\java\studyapp\util\QuestionDAO.java
 F:\StudyApp\src\main\java\studyapp\controller\QuizTakingController.java

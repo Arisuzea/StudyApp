@@ -15,6 +15,7 @@ import studyapp.model.Quiz;
 import studyapp.util.UserAnswerDAO;
 import studyapp.util.DatabaseManager;
 import studyapp.util.Session;
+import studyapp.util.UIUtil;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -24,7 +25,6 @@ import java.sql.SQLException;
 import java.util.*;
 
 public class QuizTakingController {
-
     @FXML private Label questionLabel;
     @FXML private VBox optionContainer;
     @FXML private Button nextButton;
@@ -38,6 +38,7 @@ public class QuizTakingController {
     private Timeline countdown;
     private int timeRemaining; // in seconds
 
+    // Begins a quiz session with the provided quiz and questions
     public void beginQuizSession(Quiz quiz, List<Question> questions) {
         this.quiz = quiz;
         this.questions = questions;
@@ -49,12 +50,12 @@ public class QuizTakingController {
         loadCurrentQuestion();
     }
 
+    // Starts the countdown timer for the quiz
     private void startTimer() {
+        updateTimerLabel(); // <- update the UI instantly
         countdown = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
             timeRemaining--;
-            int mins = timeRemaining / 60;
-            int secs = timeRemaining % 60;
-            timerLabel.setText(String.format("Time Left: %02d:%02d", mins, secs));
+            updateTimerLabel();
 
             if (timeRemaining <= 0) {
                 countdown.stop();
@@ -65,6 +66,12 @@ public class QuizTakingController {
         countdown.play();
     }
 
+    private void updateTimerLabel() {
+        int mins = timeRemaining / 60;
+        int secs = timeRemaining % 60;
+        timerLabel.setText(String.format("Time Left: %02d:%02d", mins, secs));
+    }
+    // Loads the current question and its options into the UI
     private void loadCurrentQuestion() {
         if (currentIndex >= questions.size()) {
             submitQuiz();
@@ -90,19 +97,22 @@ public class QuizTakingController {
         nextButton.setText((currentIndex == questions.size() - 1) ? "Submit" : "Next");
     }
 
+    // Advances to the next question or submits the quiz if at the end
     @FXML
     private void nextQuestion() {
         currentIndex++;
         loadCurrentQuestion();
     }
 
+    // Submits the quiz, saves answers, and shows the result popup
     private void submitQuiz() {
         countdown.stop();
         int correctCount = 0;
 
         try {
             int userId = Session.getLoggedInUser().getId();
-            int progressId = UserAnswerDAO.getOrCreateProgressId(userId, quiz.getId());
+            int progressId = UserAnswerDAO.resetAndCreateProgress(userId, quiz.getId());
+
 
             for (Question q : questions) {
                 char selectedChar = userAnswers.getOrDefault(q.getId(), ' ');
@@ -130,7 +140,7 @@ public class QuizTakingController {
             controller.setScore(correctCount, questions.size());
 
             Stage popupStage = new Stage();
-            popupStage.setTitle("Quiz Complete");
+            UIUtil.applyAppIcon(popupStage);
             popupStage.setScene(new Scene(popupRoot));
             popupStage.setResizable(false);
 
@@ -142,14 +152,15 @@ public class QuizTakingController {
             popupStage.initModality(javafx.stage.Modality.WINDOW_MODAL);
             popupStage.setAlwaysOnTop(true);
             popupStage.show();
-            popupStage.centerOnScreen();
+            popupStage.setX(quizStage.getX() + (quizStage.getWidth() - popupStage.getWidth()) / 2);
+            popupStage.setY(quizStage.getY() + (quizStage.getHeight() - popupStage.getHeight()) / 2);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-
+    // Retrieves the option ID for a given question and label
     private int getOptionId(int questionId, char label) throws SQLException {
         String sql = "SELECT id FROM options WHERE question_id = ? AND option_label = ?";
         try (Connection conn = DatabaseManager.connect();

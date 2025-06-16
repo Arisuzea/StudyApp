@@ -11,16 +11,16 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.event.EventHandler;
+import javafx.scene.image.ImageView;
 import studyapp.model.Lesson;
 import studyapp.util.LessonDAO;
+import studyapp.util.UIUtil;
 
 import java.io.IOException;
 import java.util.List;
 
 public class CreateLessonsController {
-
-    @FXML
-    private FlowPane lessonContainer;
+    @FXML private FlowPane lessonContainer;
 
     @FXML
     private void initialize() {
@@ -29,12 +29,24 @@ public class CreateLessonsController {
     }
 
     private void addCreateLessonCard() {
-        VBox card = createCard("+", "#2c3e50", event -> {
+        VBox card = new VBox();
+        card.setAlignment(Pos.CENTER);
+        card.setPrefSize(243, 243);
+        card.getStyleClass().add("lesson-card");
+
+        ImageView icon = new ImageView(getClass().getResource("/icons/Plus Icon.png").toExternalForm());
+        icon.setFitWidth(48);
+        icon.setFitHeight(48);
+
+        card.getChildren().add(icon);
+
+        card.setOnMouseClicked(event -> {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Admin - LessonCreation.fxml"));
                 Parent root = loader.load();
 
                 Stage stage = new Stage();
+                UIUtil.applyAppIcon(stage);
                 stage.setTitle("Create New Lesson");
                 stage.setScene(new Scene(root));
                 stage.setMaximized(true);
@@ -43,6 +55,7 @@ public class CreateLessonsController {
                 e.printStackTrace();
             }
         });
+
         lessonContainer.getChildren().add(card);
     }
 
@@ -50,7 +63,6 @@ public class CreateLessonsController {
         List<Lesson> lessons = LessonDAO.getAllLessons();
 
         for (Lesson lesson : lessons) {
-            // Add click handler to open editor for this lesson
             VBox lessonCard = createCard(lesson.getTitle(), "#2c3e50", event -> openLessonEditor(lesson));
             lessonContainer.getChildren().add(lessonCard);
         }
@@ -60,13 +72,13 @@ public class CreateLessonsController {
         VBox box = new VBox();
         box.setAlignment(Pos.CENTER);
         box.setPrefSize(243, 243);
-        box.setStyle("-fx-background-color: " + color + "; -fx-background-radius: 15; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 2, 2);");
+        box.getStyleClass().add("lesson-card");
 
         Label label = new Label(text);
-        label.setStyle("-fx-font-size: 24px; -fx-text-fill: white;");
+        label.getStyleClass().add("lesson-title");
         label.setWrapText(true);
         label.setAlignment(Pos.CENTER);
-        label.setMaxWidth(Double.MAX_VALUE);
+        label.setMaxWidth(200);
 
         box.getChildren().add(label);
         if (clickHandler != null) box.setOnMouseClicked(clickHandler);
@@ -82,12 +94,12 @@ public class CreateLessonsController {
             controller.loadLessonForEditing(lesson);
 
             Stage stage = new Stage();
+            UIUtil.applyAppIcon(stage);
             stage.setTitle("Edit Lesson");
             stage.setScene(new Scene(root));
             stage.setMaximized(true);
             stage.show();
 
-            // Refresh lesson cards on editor close
             stage.setOnHidden(e -> {
                 lessonContainer.getChildren().clear();
                 addCreateLessonCard();

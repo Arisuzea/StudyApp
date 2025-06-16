@@ -3,29 +3,52 @@ package studyapp.util;
 import java.sql.*;
 
 public class UserAnswerDAO {
-
-    // 1. Get or create progress_id when quiz starts
-    public static int getOrCreateProgressId(int userId, int quizId) throws SQLException {
-        String selectSql = "SELECT id FROM user_quiz_progress WHERE user_id = ? AND quiz_id = ? AND status = 'in_progress'";
+    // Gets or creates a progress record for a quiz attempt
+    public static int resetAndCreateProgress(int userId, int quizId) throws SQLException {
+        String fetchExistingProgressSql = "SELECT id FROM user_quiz_progress WHERE user_id = ? AND quiz_id = ?";
+        String deleteAnswersSql = "DELETE FROM user_question_answers WHERE progress_id = ?";
+        String deleteProgressSql = "DELETE FROM user_quiz_progress WHERE id = ?";
         String insertSql = "INSERT INTO user_quiz_progress (user_id, quiz_id) VALUES (?, ?)";
 
         try (Connection conn = DatabaseManager.connect()) {
-            PreparedStatement selectStmt = conn.prepareStatement(selectSql);
-            selectStmt.setInt(1, userId);
-            selectStmt.setInt(2, quizId);
-            ResultSet rs = selectStmt.executeQuery();
-            if (rs.next()) return rs.getInt("id");
+            conn.setAutoCommit(false);
 
-            PreparedStatement insertStmt = conn.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS);
-            insertStmt.setInt(1, userId);
-            insertStmt.setInt(2, quizId);
-            insertStmt.executeUpdate();
-            ResultSet generated = insertStmt.getGeneratedKeys();
-            return generated.next() ? generated.getInt(1) : -1;
+            int existingProgressId = -1;
+            try (PreparedStatement fetchStmt = conn.prepareStatement(fetchExistingProgressSql)) {
+                fetchStmt.setInt(1, userId);
+                fetchStmt.setInt(2, quizId);
+                ResultSet rs = fetchStmt.executeQuery();
+                if (rs.next()) existingProgressId = rs.getInt("id");
+            }
+
+            if (existingProgressId != -1) {
+                try (PreparedStatement delAns = conn.prepareStatement(deleteAnswersSql)) {
+                    delAns.setInt(1, existingProgressId);
+                    delAns.executeUpdate();
+                }
+                try (PreparedStatement delProg = conn.prepareStatement(deleteProgressSql)) {
+                    delProg.setInt(1, existingProgressId);
+                    delProg.executeUpdate();
+                }
+            }
+
+            try (PreparedStatement insertStmt = conn.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS)) {
+                insertStmt.setInt(1, userId);
+                insertStmt.setInt(2, quizId);
+                insertStmt.executeUpdate();
+                ResultSet keys = insertStmt.getGeneratedKeys();
+                if (keys.next()) {
+                    conn.commit();
+                    return keys.getInt(1);
+                } else {
+                    conn.rollback();
+                    throw new SQLException("Failed to insert new progress.");
+                }
+            }
         }
     }
 
-    // 2. Save answer per question
+    // Saves an answer for a question in a quiz attempt
     public static void saveAnswer(int progressId, int questionId, Integer selectedOptionId, boolean isCorrect) throws SQLException {
         String sql = """
             INSERT INTO user_question_answers (progress_id, question_id, selected_option, is_correct)
@@ -43,7 +66,7 @@ public class UserAnswerDAO {
         }
     }
 
-    // 3. Mark quiz as completed
+    // Marks a quiz attempt as completed
     public static void completeProgress(int progressId, int score) throws SQLException {
         String sql = "UPDATE user_quiz_progress SET status = 'completed', completed_at = CURRENT_TIMESTAMP, score = ? WHERE id = ?";
         try (Connection conn = DatabaseManager.connect();

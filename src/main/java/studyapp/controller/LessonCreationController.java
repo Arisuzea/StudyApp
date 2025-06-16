@@ -7,17 +7,18 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import javafx.scene.web.HTMLEditor;
+
 import studyapp.model.Lesson;
 import studyapp.util.LessonDAO;
 
 public class LessonCreationController {
-
     @FXML private TextField titleField;
     @FXML private TextArea shortDescField;
-    @FXML private TextArea contentField;
+    @FXML private HTMLEditor contentEditor;
     @FXML private Button btnCancel;
     @FXML private Button btnSave;
-    @FXML private Button btnDelete;  // Added delete button
+    @FXML private Button btnDelete;
 
     private boolean isEditMode = false;
     private int lessonId = -1;
@@ -27,6 +28,7 @@ public class LessonCreationController {
     @FXML
     private ComboBox<String> difficultyBox;
 
+    /** Initializes the lesson creation window and sets up event handlers */
     @FXML
     public void initialize() {
         btnCancel.setOnAction(e -> closeWindow());
@@ -34,10 +36,11 @@ public class LessonCreationController {
         difficultyBox.setItems(FXCollections.observableArrayList("Easy", "Intermediate", "Difficult"));
     }
 
+    /** Saves the lesson to the database */
     private void saveLesson() {
         String title = safeTrim(titleField.getText());
         String shortDesc = safeTrim(shortDescField.getText());
-        String content = safeTrim(contentField.getText());
+        String content = contentEditor.getHtmlText().trim();
         String topic = safeTrim(topicField.getText());
         String difficulty = difficultyBox.getValue();
 
@@ -62,35 +65,37 @@ public class LessonCreationController {
         }
     }
 
+    /** Loads lesson data for editing and sets up delete handler */
     public void loadLessonForEditing(Lesson lesson) {
-    isEditMode = true;
-    lessonId = lesson.getId();
+        isEditMode = true;
+        lessonId = lesson.getId();
 
-    titleField.setText(lesson.getTitle());
-    shortDescField.setText(lesson.getShortDescription());
-    contentField.setText(lesson.getContent());
-    topicField.setText(lesson.getTopic());
-    difficultyBox.setValue(lesson.getDifficulty());
+        titleField.setText(lesson.getTitle());
+        shortDescField.setText(lesson.getShortDescription());
+        contentEditor.setHtmlText(lesson.getContent());
+        topicField.setText(lesson.getTopic());
+        difficultyBox.setValue(lesson.getDifficulty());
 
-    btnDelete.setVisible(true);
-    btnDelete.setDisable(false);
+        btnDelete.setVisible(true);
+        btnDelete.setDisable(false);
 
-    btnDelete.setOnAction(e -> {
-        boolean success = LessonDAO.deleteLessonById(lessonId);
-        if (success) {
-            System.out.println("Lesson deleted.");
-            closeWindow();
-        } else {
-            System.out.println("Failed to delete lesson.");
-        }
-    });
-}
+        btnDelete.setOnAction(e -> {
+            boolean success = LessonDAO.deleteLessonById(lessonId);
+            if (success) {
+                System.out.println("Lesson deleted.");
+                closeWindow();
+            } else {
+                System.out.println("Failed to delete lesson.");
+            }
+        });
+    }
 
-
+    /** Closes the lesson creation window */
     private void closeWindow() {
         ((Stage) btnCancel.getScene().getWindow()).close();
     }
 
+    /** Safely trims a string, returning an empty string if null */
     private String safeTrim(String s) {
         return s == null ? "" : s.trim();
     }

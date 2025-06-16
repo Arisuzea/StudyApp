@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Button?>
+<?import javafx.geometry.Insets?>
+
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="studyapp.controller.CustomAlertController"
+      spacing="20"
+      alignment="CENTER"
+      styleClass="custom-alert"
+      prefWidth="450"
+      maxWidth="600"
+      stylesheets="@/css/General - CustomAlert.css">
+
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <Label fx:id="titleText" wrapText="true" styleClass="alert-title"/>
+    <Label fx:id="messageText" wrapText="true" styleClass="alert-message"/>
+    <Button text="OK" onAction="#closeAlert" styleClass="alert-button"/>
+</VBox>
+
