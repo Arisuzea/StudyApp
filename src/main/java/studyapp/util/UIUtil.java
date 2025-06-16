@@ -17,7 +17,7 @@ import javafx.scene.image.Image;
 
 
 public class UIUtil {
-    private static final Image appIcon = new Image(UIUtil.class.getResourceAsStream("/icons/studyapp.png"));
+    private static final Image appIcon = new Image(UIUtil.class.getResourceAsStream("/icons/StudyApp.png"));
 
     public static void applyAppIcon(Stage stage) {
         stage.getIcons().add(appIcon);
@@ -55,5 +55,4 @@ public class UIUtil {
             e.printStackTrace();
         }
     }
-
 }

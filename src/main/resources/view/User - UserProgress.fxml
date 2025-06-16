@@ -18,7 +18,5 @@
         <Label fx:id="userNameLabel" styleClass="section-title"/>
 
         <FlowPane fx:id="progressCardContainer" hgap="20" vgap="20" prefWrapLength="600"/>
-
-        <Button fx:id="btnViewDetails" text="View Details" styleClass="primary-button"/>
     </VBox>
 </ScrollPane>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="studyapp.controller.QuizAttemptDetailController"
+            stylesheets="@/css/User - QuizAttemptDetail.css" styleClass="root">
+
+    <top>
+        <VBox spacing="10" styleClass="header-section">
+            <padding>
+                <Insets top="20" right="20" bottom="10" left="20"/>
+            </padding>
+            <Label fx:id="quizTitleLabel" styleClass="quiz-title"/>
+            <Label fx:id="userInfoLabel" styleClass="user-info"/>
+        </VBox>
+    </top>
+
+    <center>
+        <ScrollPane fitToWidth="true" pannable="true" vbarPolicy="AS_NEEDED" hbarPolicy="NEVER" styleClass="scroll-pane">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <content>
+                <VBox fx:id="questionContainer" spacing="15" />
+            </content>
+        </ScrollPane>
+    </center>
+
+    <bottom>
+        <HBox alignment="CENTER_RIGHT" spacing="10" styleClass="footer-bar">
+            <padding>
+                <Insets top="15" right="20" bottom="15" left="20"/>
+            </padding>
+            <Button text="Close" onAction="#handleClose" styleClass="close-btn"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>
