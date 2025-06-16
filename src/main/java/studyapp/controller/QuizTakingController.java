@@ -137,6 +137,7 @@ public class QuizTakingController {
             Stage quizStage = (Stage) nextButton.getScene().getWindow();
             controller.setQuizStage(quizStage); // Pass quiz window to popup
 
+            popupStage.initStyle(javafx.stage.StageStyle.UNDECORATED);
             popupStage.initOwner(quizStage);
             popupStage.initModality(javafx.stage.Modality.WINDOW_MODAL);
             popupStage.setAlwaysOnTop(true);

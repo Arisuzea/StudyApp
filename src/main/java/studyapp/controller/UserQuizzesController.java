@@ -66,7 +66,7 @@ public class UserQuizzesController {
             controller.setQuiz(quiz);  // Pass quiz info
 
             Stage stage = new Stage();
-            stage.setTitle("Quiz Detail");
+            stage.setTitle("StudyApp - OOP Learning");
             stage.setScene(new Scene(root));
             stage.setMaximized(true);
             stage.show();
