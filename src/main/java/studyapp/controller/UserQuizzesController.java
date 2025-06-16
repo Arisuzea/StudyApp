@@ -5,13 +5,16 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import studyapp.model.Quiz;
+import studyapp.util.ProgressDAO;
 import studyapp.util.QuizDAO;
+import studyapp.util.Session;
 import studyapp.util.UIUtil;
 
 import java.io.IOException;
@@ -63,11 +66,23 @@ public class UserQuizzesController {
     /** Opens the quiz detail window for the selected quiz */
     private void openQuizDetail(Quiz quiz) {
         try {
+            int userId = Session.getLoggedInUser().getId();
+
+            if (ProgressDAO.hasUserTakenQuiz(userId, quiz.getId())) {
+                UIUtil.showAlert(
+                    quizContainer.getScene().getWindow(),
+                    Alert.AlertType.INFORMATION,
+                    "Quiz Already Completed",
+                    "You've already taken this quiz. You cannot retake it."
+                );
+                return;
+            }
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/User - QuizDetail.fxml"));
             Parent root = loader.load();
 
             QuizDetailController controller = loader.getController();
-            controller.setQuiz(quiz);  // Pass quiz info
+            controller.setQuiz(quiz);
 
             Stage stage = new Stage();
             UIUtil.applyAppIcon(stage);
@@ -76,8 +91,8 @@ public class UserQuizzesController {
             stage.setMaximized(true);
             stage.show();
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
-    }
+}
 }

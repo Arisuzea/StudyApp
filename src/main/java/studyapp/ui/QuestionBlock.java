@@ -3,24 +3,23 @@ package studyapp.ui;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-
 import java.util.List;
+import javafx.scene.web.HTMLEditor;
 
 public class QuestionBlock extends VBox {
-    private final TextField questionField;
+    private final HTMLEditor questionEditor;
     private final TextField[] optionFields;
     private final ToggleGroup toggleGroup;
 
-    // Constructs a new question block UI component
     public QuestionBlock() {
         setSpacing(10);
         setPadding(new Insets(10));
         setStyle("-fx-border-color: #bdc3c7; -fx-border-width: 2px; -fx-background-color: #ecf0f1; -fx-border-radius: 10; -fx-background-radius: 10;");
 
         Label questionLabel = new Label("Question:");
-        questionField = new TextField();
-        questionField.setPromptText("Enter question text...");
-        getChildren().addAll(questionLabel, questionField);
+        questionEditor = new HTMLEditor();
+        questionEditor.setPrefHeight(150);
+        getChildren().addAll(questionLabel, questionEditor);
 
         optionFields = new TextField[4];
         toggleGroup = new ToggleGroup();
@@ -37,18 +36,19 @@ public class QuestionBlock extends VBox {
             optionField.setPromptText("Option " + label);
 
             optionFields[i] = optionField;
-
             optionBox.getChildren().addAll(radioButton, optionField);
             getChildren().add(optionBox);
         }
     }
 
-    // Returns the entered question text
     public String getQuestionText() {
-        return questionField.getText().trim();
+        return questionEditor.getHtmlText();
     }
 
-    // Returns the entered options as a string array
+    public void setQuestionText(String html) {
+        questionEditor.setHtmlText(html);
+    }
+
     public String[] getOptions() {
         String[] options = new String[4];
         for (int i = 0; i < 4; i++) {
@@ -57,35 +57,26 @@ public class QuestionBlock extends VBox {
         return options;
     }
 
-    // Returns the selected correct option label
     public char getCorrectOption() {
         for (Toggle toggle : toggleGroup.getToggles()) {
             RadioButton rb = (RadioButton) toggle;
             if (rb.isSelected()) {
-                return rb.getText().charAt(0); // 'A', 'B', etc.
+                return rb.getText().charAt(0);
             }
         }
-        return ' '; // return blank if none selected
+        return ' ';
     }
 
-    // Sets the question text for editing
-    public void setQuestionText(String text) {
-        questionField.setText(text);
-    }
-
-    // Sets the options for editing (array version)
     public void setOptions(String[] options) {
         for (int i = 0; i < 4 && i < options.length; i++) {
             optionFields[i].setText(options[i]);
         }
     }
 
-    // Sets the options for editing (list version)
     public void setOptions(List<String> options) {
         setOptions(options.toArray(new String[0]));
     }
 
-    // Sets the correct option for editing
     public void setCorrectOption(char label) {
         for (Toggle toggle : toggleGroup.getToggles()) {
             RadioButton rb = (RadioButton) toggle;

@@ -2,6 +2,8 @@
 
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.web.WebView?>
+<?import java.lang.String?>
 
 <BorderPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="studyapp.controller.QuizTakingController"
@@ -19,7 +21,11 @@
     <center>
         <VBox spacing="25" alignment="CENTER" styleClass="quiz-content">
             <Label fx:id="timerLabel" styleClass="quiz-timer"/>
-            <Label fx:id="questionLabel" wrapText="true" styleClass="quiz-question"/>
+            <WebView fx:id="questionWebView" prefHeight="800">
+                <styleClass>
+                    <String fx:value="quiz-question" />
+                </styleClass>
+            </WebView>
 
             <VBox fx:id="optionContainer" spacing="10"/>
 
