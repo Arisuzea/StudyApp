@@ -52,11 +52,10 @@ public class QuizTakingController {
 
     // Starts the countdown timer for the quiz
     private void startTimer() {
+        updateTimerLabel(); // <- update the UI instantly
         countdown = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
             timeRemaining--;
-            int mins = timeRemaining / 60;
-            int secs = timeRemaining % 60;
-            timerLabel.setText(String.format("Time Left: %02d:%02d", mins, secs));
+            updateTimerLabel();
 
             if (timeRemaining <= 0) {
                 countdown.stop();
@@ -67,6 +66,11 @@ public class QuizTakingController {
         countdown.play();
     }
 
+    private void updateTimerLabel() {
+        int mins = timeRemaining / 60;
+        int secs = timeRemaining % 60;
+        timerLabel.setText(String.format("Time Left: %02d:%02d", mins, secs));
+    }
     // Loads the current question and its options into the UI
     private void loadCurrentQuestion() {
         if (currentIndex >= questions.size()) {

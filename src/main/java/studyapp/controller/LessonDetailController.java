@@ -2,10 +2,12 @@ package studyapp.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.web.WebView;
 import javafx.scene.web.WebEngine;
+
 import studyapp.model.Lesson;
 
 public class LessonDetailController {
@@ -15,9 +17,9 @@ public class LessonDetailController {
     @FXML private Node btnBack;
 
     private StackPane contentPane;
-    private Node previousView;
+    private Parent previousView;  // Changed from Node to Parent for clarity
 
-    public void setLesson(Lesson lesson, StackPane contentPane, Node previousView) {
+    public void setLesson(Lesson lesson, StackPane contentPane, Parent previousView) {
         this.contentPane = contentPane;
         this.previousView = previousView;
 
@@ -32,8 +34,9 @@ public class LessonDetailController {
         btnBack.setOnMouseClicked(e -> {
             if (contentPane != null && previousView != null) {
                 contentPane.getChildren().setAll(previousView);
+            } else {
+                System.err.println("Back navigation failed: missing previous view or content pane.");
             }
         });
     }
 }
-

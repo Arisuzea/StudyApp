@@ -44,12 +44,11 @@ public class RegisterController {
 
         if (!isStrongPassword(password)) {
             UIUtil.showAlert(currentStage, Alert.AlertType.WARNING, "Weak Password", """
-                Password must be at least 6 characters long,
-                and include:
-                 - An uppercase letter
-                 - A lowercase letter
-                 - A number
-                 - A special character (@ # $ % etc.)
+                Password must be at least 6 characters long, and include:
+            An uppercase letter
+            A lowercase letter
+            A number
+            A special character (@ # $ % etc.)
             """.stripIndent());
             return;
         }

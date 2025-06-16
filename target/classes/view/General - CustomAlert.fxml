@@ -12,6 +12,7 @@
       alignment="CENTER"
       styleClass="custom-alert"
       prefWidth="450"
+      maxWidth="600"
       stylesheets="@/css/General - CustomAlert.css">
 
     <padding>

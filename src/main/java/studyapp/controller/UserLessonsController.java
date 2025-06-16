@@ -52,11 +52,23 @@ public class UserLessonsController {
 
     private void openLessonDetail(Lesson lesson) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/User - LessonDetail.fxml"));
-            Parent lessonDetail = loader.load();
+            // Load the lesson detail screen
+            FXMLLoader detailLoader = new FXMLLoader(getClass().getResource("/view/User - LessonDetail.fxml"));
+            Parent lessonDetail = detailLoader.load();
+            LessonDetailController controller = detailLoader.getController();
 
-            LessonDetailController controller = loader.getController();
-            controller.setLesson(lesson, contentPane, lessonContainer.getParent());
+            // Reload full User - Lessons.fxml to use as back view
+            FXMLLoader previousLoader = new FXMLLoader(getClass().getResource("/view/User - Lessons.fxml"));
+            Parent previousView = previousLoader.load();
+
+            // Inject contentPane into the reloaded lessons controller
+            UserLessonsController previousController = previousLoader.getController();
+            previousController.setContentPane(contentPane);
+
+            // Pass lesson and view references to lesson detail controller
+            controller.setLesson(lesson, contentPane, previousView);
+
+            // Show lesson detail
             contentPane.getChildren().setAll(lessonDetail);
         } catch (IOException e) {
             e.printStackTrace();
