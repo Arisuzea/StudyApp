@@ -43,19 +43,21 @@ public class UserQuizzesController {
         VBox card = new VBox();
         card.setAlignment(Pos.CENTER);
         card.setPrefSize(243, 243);
-        card.setStyle("-fx-background-color: #2c3e50; -fx-background-radius: 15; " +
-                    "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 2, 2);");
+        card.setSpacing(10); // Adds spacing between children
+        card.getStyleClass().add("lesson-card");
 
         Label title = new Label(titleText);
-        title.setStyle("-fx-font-size: 24px; -fx-text-fill: white;");
         title.setWrapText(true);
         title.setAlignment(Pos.CENTER);
-        title.setMaxWidth(Double.MAX_VALUE);
+        title.setMaxWidth(200); // Set a max width to force wrapping inside the card
+        title.getStyleClass().add("quiz-title");
+
 
         card.getChildren().add(title);
         card.setOnMouseClicked(onClick);
         return card;
     }
+
 
 
     private void openQuizDetail(Quiz quiz) {

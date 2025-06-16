@@ -7,7 +7,8 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="studyapp.controller.UserLessonsController">
+            fx:controller="studyapp.controller.UserLessonsController"
+            stylesheets="@/css/User - Lessons.css">
 
     <ScrollPane fitToWidth="true" fitToHeight="true"
                 AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"
