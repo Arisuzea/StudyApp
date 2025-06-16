@@ -17,7 +17,6 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class QuizDetailController {
-
     @FXML private Label titleLabel;
     @FXML private Label descriptionLabel;
     @FXML private Label itemCountLabel;
@@ -26,6 +25,7 @@ public class QuizDetailController {
     private Quiz quiz;
     private List<Question> questionList;
 
+    /** Sets the quiz and loads its details */
     public void setQuiz(Quiz quiz) {
         this.quiz = quiz;
         titleLabel.setText(quiz.getTitle());
@@ -42,6 +42,7 @@ public class QuizDetailController {
         }
     }
 
+    /** Starts the quiz for the user */
     @FXML
     private void startQuiz() {
         try {
@@ -58,9 +59,7 @@ public class QuizDetailController {
             stage.setMaximized(true);
             stage.show();
 
-            // Optionally close the detail screen
             startButton.getScene().getWindow().hide();
-
         } catch (IOException e) {
             e.printStackTrace();
         }

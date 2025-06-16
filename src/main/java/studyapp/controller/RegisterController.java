@@ -17,6 +17,7 @@ public class RegisterController {
     @FXML private PasswordField confirmPasswordField;
     @FXML private Label errorLabel;
 
+    // Handles user registration logic
     @FXML
     private void handleRegister() {
         String username = usernameField.getText().trim();
@@ -48,6 +49,7 @@ public class RegisterController {
         }
     }
 
+    // Navigates to the login screen after registration
     @FXML
     private void goToLogin() {
         try {

@@ -13,7 +13,6 @@ import studyapp.model.Lesson;
 import studyapp.util.LessonDAO;
 
 public class LessonCreationController {
-
     @FXML private TextField titleField;
     @FXML private TextArea shortDescField;
     @FXML private HTMLEditor contentEditor;
@@ -29,6 +28,7 @@ public class LessonCreationController {
     @FXML
     private ComboBox<String> difficultyBox;
 
+    /** Initializes the lesson creation window and sets up event handlers */
     @FXML
     public void initialize() {
         btnCancel.setOnAction(e -> closeWindow());
@@ -36,6 +36,7 @@ public class LessonCreationController {
         difficultyBox.setItems(FXCollections.observableArrayList("Easy", "Intermediate", "Difficult"));
     }
 
+    /** Saves the lesson to the database */
     private void saveLesson() {
         String title = safeTrim(titleField.getText());
         String shortDesc = safeTrim(shortDescField.getText());
@@ -64,35 +65,37 @@ public class LessonCreationController {
         }
     }
 
+    /** Loads lesson data for editing and sets up delete handler */
     public void loadLessonForEditing(Lesson lesson) {
-    isEditMode = true;
-    lessonId = lesson.getId();
+        isEditMode = true;
+        lessonId = lesson.getId();
 
-    titleField.setText(lesson.getTitle());
-    shortDescField.setText(lesson.getShortDescription());
-    contentEditor.setHtmlText(lesson.getContent());
-    topicField.setText(lesson.getTopic());
-    difficultyBox.setValue(lesson.getDifficulty());
+        titleField.setText(lesson.getTitle());
+        shortDescField.setText(lesson.getShortDescription());
+        contentEditor.setHtmlText(lesson.getContent());
+        topicField.setText(lesson.getTopic());
+        difficultyBox.setValue(lesson.getDifficulty());
 
-    btnDelete.setVisible(true);
-    btnDelete.setDisable(false);
+        btnDelete.setVisible(true);
+        btnDelete.setDisable(false);
 
-    btnDelete.setOnAction(e -> {
-        boolean success = LessonDAO.deleteLessonById(lessonId);
-        if (success) {
-            System.out.println("Lesson deleted.");
-            closeWindow();
-        } else {
-            System.out.println("Failed to delete lesson.");
-        }
-    });
-}
+        btnDelete.setOnAction(e -> {
+            boolean success = LessonDAO.deleteLessonById(lessonId);
+            if (success) {
+                System.out.println("Lesson deleted.");
+                closeWindow();
+            } else {
+                System.out.println("Failed to delete lesson.");
+            }
+        });
+    }
 
-
+    /** Closes the lesson creation window */
     private void closeWindow() {
         ((Stage) btnCancel.getScene().getWindow()).close();
     }
 
+    /** Safely trims a string, returning an empty string if null */
     private String safeTrim(String s) {
         return s == null ? "" : s.trim();
     }

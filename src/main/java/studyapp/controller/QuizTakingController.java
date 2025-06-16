@@ -25,7 +25,6 @@ import java.sql.SQLException;
 import java.util.*;
 
 public class QuizTakingController {
-
     @FXML private Label questionLabel;
     @FXML private VBox optionContainer;
     @FXML private Button nextButton;
@@ -39,6 +38,7 @@ public class QuizTakingController {
     private Timeline countdown;
     private int timeRemaining; // in seconds
 
+    // Begins a quiz session with the provided quiz and questions
     public void beginQuizSession(Quiz quiz, List<Question> questions) {
         this.quiz = quiz;
         this.questions = questions;
@@ -50,6 +50,7 @@ public class QuizTakingController {
         loadCurrentQuestion();
     }
 
+    // Starts the countdown timer for the quiz
     private void startTimer() {
         countdown = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
             timeRemaining--;
@@ -66,6 +67,7 @@ public class QuizTakingController {
         countdown.play();
     }
 
+    // Loads the current question and its options into the UI
     private void loadCurrentQuestion() {
         if (currentIndex >= questions.size()) {
             submitQuiz();
@@ -91,12 +93,14 @@ public class QuizTakingController {
         nextButton.setText((currentIndex == questions.size() - 1) ? "Submit" : "Next");
     }
 
+    // Advances to the next question or submits the quiz if at the end
     @FXML
     private void nextQuestion() {
         currentIndex++;
         loadCurrentQuestion();
     }
 
+    // Submits the quiz, saves answers, and shows the result popup
     private void submitQuiz() {
         countdown.stop();
         int correctCount = 0;
@@ -152,7 +156,7 @@ public class QuizTakingController {
         }
     }
 
-
+    // Retrieves the option ID for a given question and label
     private int getOptionId(int questionId, char label) throws SQLException {
         String sql = "SELECT id FROM options WHERE question_id = ? AND option_label = ?";
         try (Connection conn = DatabaseManager.connect();

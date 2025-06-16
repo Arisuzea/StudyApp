@@ -7,11 +7,11 @@ import javafx.scene.layout.*;
 import java.util.List;
 
 public class QuestionBlock extends VBox {
-
     private final TextField questionField;
     private final TextField[] optionFields;
     private final ToggleGroup toggleGroup;
 
+    // Constructs a new question block UI component
     public QuestionBlock() {
         setSpacing(10);
         setPadding(new Insets(10));
@@ -43,14 +43,12 @@ public class QuestionBlock extends VBox {
         }
     }
 
-    // ---------------------------
-    // Getters for saving
-    // ---------------------------
-
+    // Returns the entered question text
     public String getQuestionText() {
         return questionField.getText().trim();
     }
 
+    // Returns the entered options as a string array
     public String[] getOptions() {
         String[] options = new String[4];
         for (int i = 0; i < 4; i++) {
@@ -59,6 +57,7 @@ public class QuestionBlock extends VBox {
         return options;
     }
 
+    // Returns the selected correct option label
     public char getCorrectOption() {
         for (Toggle toggle : toggleGroup.getToggles()) {
             RadioButton rb = (RadioButton) toggle;
@@ -69,25 +68,24 @@ public class QuestionBlock extends VBox {
         return ' '; // return blank if none selected
     }
 
-    // ---------------------------
-    // Setters for loading
-    // ---------------------------
-
+    // Sets the question text for editing
     public void setQuestionText(String text) {
         questionField.setText(text);
     }
 
+    // Sets the options for editing (array version)
     public void setOptions(String[] options) {
         for (int i = 0; i < 4 && i < options.length; i++) {
             optionFields[i].setText(options[i]);
         }
     }
 
-    // Overload to support List<String> directly
+    // Sets the options for editing (list version)
     public void setOptions(List<String> options) {
         setOptions(options.toArray(new String[0]));
     }
 
+    // Sets the correct option for editing
     public void setCorrectOption(char label) {
         for (Toggle toggle : toggleGroup.getToggles()) {
             RadioButton rb = (RadioButton) toggle;

@@ -21,6 +21,7 @@ public class LoginController {
     @FXML private PasswordField passwordField;
     @FXML private Label errorLabel;
 
+    // Handles user login logic and navigation
     @FXML
     private void handleLogin() {
         String username = usernameField.getText().trim();
@@ -42,8 +43,7 @@ public class LoginController {
                         int userId = rs.getInt("id");
                         boolean isAdmin = rs.getBoolean("is_admin");
 
-                        // ✅ Set session
-                        User user = new User(userId, username, isAdmin); // Adjust if your User constructor differs
+                        User user = new User(userId, username, isAdmin);
                         Session.setLoggedInUser(user);
 
                         errorLabel.setText("");
@@ -77,6 +77,7 @@ public class LoginController {
         }
     }
 
+    // Navigates to the registration screen
     public void goToRegister() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/General - Register.fxml"));

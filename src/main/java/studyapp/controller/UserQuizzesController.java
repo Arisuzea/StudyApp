@@ -19,14 +19,15 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class UserQuizzesController {
-
     @FXML private FlowPane quizContainer;
 
+    /** Initializes the quiz list for the user */
     @FXML
     private void initialize() {
         loadQuizCards();
     }
 
+    /** Loads all quizzes and displays them as cards */
     private void loadQuizCards() {
         try {
             List<Quiz> quizzes = new QuizDAO().getAllQuizzes();
@@ -39,17 +40,18 @@ public class UserQuizzesController {
         }
     }
 
+    /** Creates a quiz card with the given title, color, and click handler */
     private VBox createCard(String titleText, String color, javafx.event.EventHandler<MouseEvent> onClick) {
         VBox card = new VBox();
         card.setAlignment(Pos.CENTER);
         card.setPrefSize(243, 243);
-        card.setSpacing(10); // Adds spacing between children
+        card.setSpacing(10);
         card.getStyleClass().add("lesson-card");
 
         Label title = new Label(titleText);
         title.setWrapText(true);
         title.setAlignment(Pos.CENTER);
-        title.setMaxWidth(200); // Set a max width to force wrapping inside the card
+        title.setMaxWidth(200);
         title.getStyleClass().add("quiz-title");
 
 
@@ -58,8 +60,7 @@ public class UserQuizzesController {
         return card;
     }
 
-
-
+    /** Opens the quiz detail window for the selected quiz */
     private void openQuizDetail(Quiz quiz) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/User - QuizDetail.fxml"));

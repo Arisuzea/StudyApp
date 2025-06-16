@@ -13,12 +13,10 @@ import studyapp.util.Session;
 
 import java.util.List;
 import javafx.stage.Stage;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class UserOwnProgressController {
-
     @FXML private Label userNameLabel;
     @FXML private FlowPane progressCardContainer;
     @FXML private Button btnViewDetails;
@@ -26,6 +24,7 @@ public class UserOwnProgressController {
     private final DateTimeFormatter dbFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MMM dd, yyyy h:mm a");
 
+    // Initializes the user's own progress view and sets up event handlers
     @FXML
     public void initialize() {
         User currentUser = Session.getLoggedInUser();
@@ -48,11 +47,13 @@ public class UserOwnProgressController {
         });
     }
 
+    // Loads quiz progress for the current user
     private void loadProgressForUser(int userId) {
         List<QuizProgress> progressList = ProgressDAO.getProgressByUser(userId);
         displayProgressCards(progressList);
     }
 
+    // Displays progress cards for each quiz attempt
     private void displayProgressCards(List<QuizProgress> progressList) {
         progressCardContainer.getChildren().clear();
 

@@ -8,6 +8,7 @@ import java.util.List;
 
 public class LessonDAO {
 
+    // Saves a lesson to the database
     public static boolean saveLesson(Lesson lesson) {
         String sql = "INSERT INTO lessons (title, short_description, content, topic, difficulty) VALUES (?, ?, ?, ?, ?)";
 
@@ -28,6 +29,7 @@ public class LessonDAO {
         }
     }
 
+    // Retrieves all lessons from the database
     public static List<Lesson> getAllLessons() {
         List<Lesson> lessons = new ArrayList<>();
         String sql = "SELECT * FROM lessons";
@@ -55,6 +57,7 @@ public class LessonDAO {
         return lessons;
     }
 
+    // Updates an existing lesson in the database
     public static boolean updateLesson(Lesson lesson) {
         String sql = "UPDATE lessons SET title = ?, short_description = ?, content = ?, topic = ?, difficulty = ? WHERE id = ?";
 
@@ -76,6 +79,7 @@ public class LessonDAO {
         }
     }
 
+    // Deletes a lesson by its ID
     public static boolean deleteLessonById(int id) {
         String sql = "DELETE FROM lessons WHERE id = ?";
 

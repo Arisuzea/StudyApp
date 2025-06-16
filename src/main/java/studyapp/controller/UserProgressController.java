@@ -12,11 +12,9 @@ import studyapp.util.ProgressDAO;
 
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
-
 import java.util.List;
 
 public class UserProgressController {
-
     @FXML private TextField searchField;
     @FXML private ListView<User> userList;
     @FXML private Label userNameLabel;
@@ -33,7 +31,7 @@ public class UserProgressController {
     private final DateTimeFormatter dbFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MMM dd, yyyy h:mm a");
 
-
+    // Initializes the user progress view and sets up event handlers
     @FXML
     public void initialize() {
         configureTableColumns();
@@ -56,6 +54,7 @@ public class UserProgressController {
         });
     }
 
+    // Configures the table columns for quiz progress display
     private void configureTableColumns() {
         quizCol.setCellValueFactory(data -> data.getValue().quizTitleProperty());
         scoreCol.setCellValueFactory(data -> data.getValue().scoreProperty().asObject());
@@ -65,8 +64,8 @@ public class UserProgressController {
             String formatted = "—";
             if (dateStr != null && !dateStr.isEmpty()) {
                 try {
-                    LocalDateTime parsed = LocalDateTime.parse(dateStr, dbFormatter); // 👈 use custom parser
-                    formatted = parsed.format(dateFormatter); // 👈 pretty format
+                    LocalDateTime parsed = LocalDateTime.parse(dateStr, dbFormatter);
+                    formatted = parsed.format(dateFormatter);
                 } catch (Exception e) {
                     formatted = "Invalid Date";
                 }
@@ -75,16 +74,19 @@ public class UserProgressController {
         });
     }
 
+    // Loads all non-admin users into the user list
     private void loadUsers() {
         allUsers = UserDAO.getAllNonAdminUsers();
         userList.setItems(FXCollections.observableArrayList(allUsers));
     }
 
+    // Loads quiz progress for the selected user
     private void loadProgressForUser(int userId) {
         List<QuizProgress> progressList = ProgressDAO.getProgressByUser(userId);
         quizTable.setItems(FXCollections.observableArrayList(progressList));
     }
 
+    // Filters the user list based on the search field
     private void filterUserList(KeyEvent event) {
         String filter = searchField.getText().toLowerCase();
         var filtered = allUsers.stream()

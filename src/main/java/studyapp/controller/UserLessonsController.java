@@ -15,9 +15,9 @@ import java.io.IOException;
 import java.util.List;
 
 public class UserLessonsController {
-
     @FXML private FlowPane lessonContainer;
     private StackPane contentPane;
+
     public void setContentPane(StackPane contentPane) {
         this.contentPane = contentPane;
     }
@@ -49,7 +49,6 @@ public class UserLessonsController {
         card.setOnMouseClicked(e -> openLessonDetail(lesson));
         return card;
     }
-
 
     private void openLessonDetail(Lesson lesson) {
         try {

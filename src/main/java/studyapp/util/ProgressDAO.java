@@ -5,6 +5,7 @@ import java.util.*;
 import studyapp.model.QuizProgress;
 
 public class ProgressDAO {
+    // Retrieves quiz progress for a user
     public static List<QuizProgress> getProgressByUser(int userId) {
         List<QuizProgress> progressList = new ArrayList<>();
         String sql = """

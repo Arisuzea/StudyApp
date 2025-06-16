@@ -22,9 +22,7 @@ import java.util.List;
 import javafx.event.EventHandler;
 
 public class CreateQuizzesController {
-
-    @FXML
-    private FlowPane quizContainer;
+    @FXML private FlowPane quizContainer;
 
     @FXML
     private void initialize() {
@@ -44,21 +42,19 @@ public class CreateQuizzesController {
         box.getStyleClass().add("quiz-card");
 
         ImageView imageView = new ImageView(getClass().getResource(imagePath).toExternalForm());
-        imageView.setFitWidth(48); // adjust as needed
-        imageView.setFitHeight(48); // adjust as needed
+        imageView.setFitWidth(48);
+        imageView.setFitHeight(48);
 
         box.getChildren().add(imageView);
         if (clickHandler != null) box.setOnMouseClicked(clickHandler);
         return box;
     }
 
-
     private void addCreateQuizCard() {
         VBox card = createCardWithIcon("/icons/Plus Icon.png", event -> openQuizCreationWindow());
         card.getStyleClass().add("quiz-card");
         quizContainer.getChildren().add(card);
     }
-
 
     private void loadQuizCards() {
         try {

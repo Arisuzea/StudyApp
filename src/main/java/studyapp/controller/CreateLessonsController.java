@@ -20,9 +20,7 @@ import java.io.IOException;
 import java.util.List;
 
 public class CreateLessonsController {
-
-    @FXML
-    private FlowPane lessonContainer;
+    @FXML private FlowPane lessonContainer;
 
     @FXML
     private void initialize() {
@@ -60,7 +58,6 @@ public class CreateLessonsController {
 
         lessonContainer.getChildren().add(card);
     }
-
 
     private void loadLessonCards() {
         List<Lesson> lessons = LessonDAO.getAllLessons();
@@ -103,7 +100,6 @@ public class CreateLessonsController {
             stage.setMaximized(true);
             stage.show();
 
-            // Refresh lesson cards on editor close
             stage.setOnHidden(e -> {
                 lessonContainer.getChildren().clear();
                 addCreateLessonCard();
