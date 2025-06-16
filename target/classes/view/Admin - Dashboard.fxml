@@ -13,6 +13,10 @@
             <Button fx:id="btnCreateLessons" text="Create Lessons" maxWidth="Infinity"/>
             <Button fx:id="btnCreateQuizzes" text="Create Quizzes" maxWidth="Infinity"/>
             <Button fx:id="btnUserProgress" text="View User Progress" maxWidth="Infinity"/>
+            
+            <Region VBox.vgrow="ALWAYS"/> <!-- Spacer -->
+
+            <Button fx:id="btnLogout" text="Logout" maxWidth="Infinity"/>
         </VBox>
     </left>
 

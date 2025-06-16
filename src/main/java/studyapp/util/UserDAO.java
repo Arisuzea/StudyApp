@@ -12,7 +12,7 @@ public class UserDAO {
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
-                users.add(new User(rs.getInt("id"), rs.getString("username")));
+                users.add(new User(rs.getInt("id"), rs.getString("username"), false)); // ✅ Add 'false' for isAdmin
             }
         } catch (SQLException e) {
             e.printStackTrace();

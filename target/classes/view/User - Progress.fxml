@@ -1,0 +1,14 @@
+<AnchorPane fx:controller="studyapp.controller.UserProgressController"
+            xmlns:fx="http://javafx.com/fxml" prefWidth="800" prefHeight="600">
+
+    <Label layoutX="30" layoutY="20" text="Your Quiz Progress" style="-fx-font-size: 24px;" fx:id="userNameLabel"/>
+
+    <TableView fx:id="quizTable" layoutX="30" layoutY="60" prefWidth="740" prefHeight="500">
+        <columns>
+            <TableColumn fx:id="quizCol" text="Quiz Title" prefWidth="200"/>
+            <TableColumn fx:id="scoreCol" text="Score" prefWidth="100"/>
+            <TableColumn fx:id="statusCol" text="Status" prefWidth="100"/>
+            <TableColumn fx:id="completedCol" text="Completed At" prefWidth="200"/>
+        </columns>
+    </TableView>
+</AnchorPane>

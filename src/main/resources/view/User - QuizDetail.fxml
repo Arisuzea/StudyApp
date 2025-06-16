@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="studyapp.controller.QuizDetailController"
+            styleClass="quiz-detail-root"
+            stylesheets="@/css/User - QuizDetail.css">
+
+    <!-- Top bar title -->
+    <top>
+        <HBox spacing="10" styleClass="top-bar">
+            <Label text="StudyApp - Pre-Quiz" styleClass="top-bar-title"/>
+        </HBox>
+    </top>
+
+    <!-- Main content center -->
+    <center>
+        <VBox spacing="20" alignment="CENTER" maxWidth="600" styleClass="quiz-content">
+            <Label fx:id="titleLabel" styleClass="quiz-title"/>
+            <Label fx:id="descriptionLabel" wrapText="true" styleClass="quiz-description"/>
+            <Label fx:id="itemCountLabel" styleClass="quiz-count"/>
+            <Button fx:id="startButton" text="Start Quiz" styleClass="start-button" onAction="#startQuiz"/>
+        </VBox>
+    </center>
+</BorderPane>

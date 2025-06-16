@@ -26,6 +26,11 @@ public class CreateQuizzesController {
 
     @FXML
     private void initialize() {
+        refreshQuizList();
+    }
+
+    // Extracted method to refresh the quiz cards
+    private void refreshQuizList() {
         quizContainer.getChildren().clear();
         addCreateQuizCard();
         loadQuizCards();
@@ -38,12 +43,16 @@ public class CreateQuizzesController {
 
     private void openQuizCreationWindow() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/QuizCreation.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Admin - QuizCreation.fxml"));
             Parent root = loader.load();
+
+            // Get controller and set onRefresh callback
+            QuizCreationController controller = loader.getController();
+            controller.setOnRefresh(this::refreshQuizList);
 
             Stage stage = new Stage();
             Scene scene = new Scene(root);
-            scene.getStylesheets().add(getClass().getResource("/css/QuizCreation.css").toExternalForm());
+            scene.getStylesheets().add(getClass().getResource("/css/Admin - QuizCreation.css").toExternalForm());
 
             stage.setScene(scene);
             stage.setTitle("StudyApp - Create New Quiz");
@@ -66,6 +75,7 @@ public class CreateQuizzesController {
             e.printStackTrace();
         }
     }
+
     private VBox createCard(String text, String color, EventHandler<MouseEvent> clickHandler) {
         VBox box = new VBox();
         box.setAlignment(Pos.CENTER);
@@ -81,6 +91,27 @@ public class CreateQuizzesController {
     }
 
     private void openQuizDetailsWindow(Quiz quiz) {
-        System.out.println("Opening quiz: " + quiz.getTitle());
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Admin - QuizCreation.fxml"));
+            Parent root = loader.load();
+
+            QuizCreationController controller = loader.getController();
+            controller.loadQuizForEditing(quiz.getId(), quiz.getTitle(), quiz.getDescription());
+
+            // Set auto-refresh callback on edit window as well
+            controller.setOnRefresh(this::refreshQuizList);
+
+            Stage stage = new Stage();
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("/css/Admin - QuizCreation.css").toExternalForm());
+
+            stage.setScene(scene);
+            stage.setTitle("StudyApp - Edit Quiz");
+            stage.setMaximized(true);
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
