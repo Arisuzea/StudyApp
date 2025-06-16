@@ -7,7 +7,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import studyapp.util.UIUtil;
 
-
 public class Initializer extends Application {
     @Override
     public void start(Stage stage) throws Exception {
@@ -16,11 +15,10 @@ public class Initializer extends Application {
         scene.getStylesheets().add(getClass().getResource("/css/General - Login.css").toExternalForm());
 
         stage.setTitle("StudyApp - Login");
-
         UIUtil.applyAppIcon(stage);
-
         stage.setScene(scene);
         stage.setMaximized(true);
+
         stage.show();
     }
 

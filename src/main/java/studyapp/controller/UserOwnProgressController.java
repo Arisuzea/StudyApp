@@ -10,6 +10,7 @@ import studyapp.model.QuizProgress;
 import studyapp.model.User;
 import studyapp.util.ProgressDAO;
 import studyapp.util.Session;
+import studyapp.util.UIUtil;
 
 import java.util.List;
 import javafx.stage.Stage;
@@ -34,16 +35,13 @@ public class UserOwnProgressController {
         }
 
         btnViewDetails.setOnAction(e -> {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.initOwner(btnViewDetails.getScene().getWindow());
-            alert.setTitle("StudyApp - OOP Learning");
-            alert.setHeaderText(null);
-            alert.setContentText("This feature is under development, after it is implemented, users will be able to view detailed progress for each quiz they've taken.\n\nStay tuned, we wish to deliver it to you soon!");
-            alert.showAndWait();
-            // Manual centering
-            Stage stage = (Stage) btnViewDetails.getScene().getWindow();
-            alert.setX(stage.getX() + (stage.getWidth() - alert.getWidth()) / 2);
-            alert.setY(stage.getY() + (stage.getHeight() - alert.getHeight()) / 2);
+            UIUtil.showAlert(
+                btnViewDetails.getScene().getWindow(),
+                Alert.AlertType.INFORMATION,
+                "OOP Learning",
+                "This feature is under development, after it is implemented, users will be able to view detailed progress for each quiz they've taken.\n\nStay tuned, we wish to deliver it to you soon!"
+            );
+
         });
     }
 

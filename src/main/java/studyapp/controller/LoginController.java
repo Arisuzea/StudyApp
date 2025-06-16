@@ -1,16 +1,21 @@
 package studyapp.controller;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
+import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import javafx.stage.Window;
+import javafx.geometry.Rectangle2D;
+import javafx.stage.Screen;
 import studyapp.model.User;
 import studyapp.util.DatabaseManager;
 import studyapp.util.Session;
+import studyapp.util.UIUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,16 +24,16 @@ import java.sql.ResultSet;
 public class LoginController {
     @FXML private TextField usernameField;
     @FXML private PasswordField passwordField;
-    @FXML private Label errorLabel;
 
-    // Handles user login logic and navigation
     @FXML
     private void handleLogin() {
         String username = usernameField.getText().trim();
         String password = passwordField.getText().trim();
+        Window window = usernameField.getScene().getWindow();
 
         if (username.isEmpty() || password.isEmpty()) {
-            errorLabel.setText("Username and password cannot be empty.");
+            UIUtil.showAlert(window, Alert.AlertType.WARNING, "Validation Error",
+                    "Username and password cannot be empty.");
             return;
         }
 
@@ -46,8 +51,6 @@ public class LoginController {
                         User user = new User(userId, username, isAdmin);
                         Session.setLoggedInUser(user);
 
-                        errorLabel.setText("");
-
                         String fxmlPath = isAdmin ? "/view/Admin - Dashboard.fxml" : "/view/User - Dashboard.fxml";
                         String cssPath = isAdmin ? "/css/Admin - Dashboard.css" : "/css/User - Dashboard.css";
 
@@ -60,24 +63,26 @@ public class LoginController {
                         stage.setScene(scene);
                         stage.setTitle(isAdmin ? "StudyApp - Admin Dashboard" : "StudyApp - OOP Learning");
                         stage.setMaximized(true);
-                        javafx.geometry.Rectangle2D screenBounds = javafx.stage.Screen.getPrimary().getVisualBounds();
+                        Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
                         stage.setX(screenBounds.getMinX());
                         stage.setY(screenBounds.getMinY());
                         stage.setWidth(screenBounds.getWidth());
                         stage.setHeight(screenBounds.getHeight());
                         stage.centerOnScreen();
                     } else {
-                        errorLabel.setText("Invalid username or password.");
+                        UIUtil.showAlert(window, Alert.AlertType.ERROR, "Login Failed",
+                                "Invalid username or password.");
                     }
                 }
             }
         } catch (Exception e) {
-            errorLabel.setText("Login failed: " + e.getMessage());
+            UIUtil.showAlert(window, Alert.AlertType.ERROR, "Login Failed",
+                    "An unexpected error occurred: " + e.getMessage());
             e.printStackTrace();
         }
     }
 
-    // Navigates to the registration screen
+    @FXML
     public void goToRegister() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/General - Register.fxml"));
@@ -88,16 +93,29 @@ public class LoginController {
             Stage stage = (Stage) usernameField.getScene().getWindow();
             stage.setScene(scene);
             stage.setTitle("StudyApp - Register");
-            stage.setMaximized(true);
-            javafx.geometry.Rectangle2D screenBounds = javafx.stage.Screen.getPrimary().getVisualBounds();
-            stage.setX(screenBounds.getMinX());
-            stage.setY(screenBounds.getMinY());
-            stage.setWidth(screenBounds.getWidth());
-            stage.setHeight(screenBounds.getHeight());
-            stage.centerOnScreen();
+
+            waitForValidStageBounds(stage, () -> {
+                stage.setMaximized(true);
+                Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+                stage.setX(screenBounds.getMinX());
+                stage.setY(screenBounds.getMinY());
+                stage.setWidth(screenBounds.getWidth());
+                stage.setHeight(screenBounds.getHeight());
+                stage.centerOnScreen();
+            });
+
         } catch (Exception e) {
-            errorLabel.setText("Could not load register page.");
+            UIUtil.showAlert(usernameField.getScene().getWindow(), Alert.AlertType.ERROR,
+                    "Navigation Error", "Could not load register page.");
             e.printStackTrace();
+        }
+    }
+
+    private void waitForValidStageBounds(Stage stage, Runnable action) {
+        if (stage.getWidth() > 0 && stage.getHeight() > 0) {
+            Platform.runLater(action);
+        } else {
+            Platform.runLater(() -> waitForValidStageBounds(stage, action));
         }
     }
 }
