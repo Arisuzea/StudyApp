@@ -39,21 +39,30 @@ public class QuestionDAO {
         String sql = "SELECT id, question_text, correct_option FROM questions WHERE quiz_id = ?";
 
         try (Connection conn = DatabaseManager.connect();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, quizId);
             ResultSet rs = stmt.executeQuery();
+
+            OptionDAO optionDAO = new OptionDAO(); // ✅ Fetch options
 
             while (rs.next()) {
                 int id = rs.getInt("id");
                 String text = rs.getString("question_text");
                 char correct = rs.getString("correct_option").charAt(0);
 
-                questions.add(new Question(id, text, correct));
+                Question q = new Question(id, text, correct);
+
+                // ✅ Set options from DB
+                List<String> options = optionDAO.getOptionsByQuestionId(id);
+                q.setOptions(options);
+
+                questions.add(q);
             }
         }
 
         return questions;
     }
+
 
     public void deleteQuestionsAndOptionsByQuizId(int quizId) throws SQLException {
         String getQuestionsSql = "SELECT id FROM questions WHERE quiz_id = ?";

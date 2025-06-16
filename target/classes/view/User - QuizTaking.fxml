@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="studyapp.controller.QuizTakingController"
+      spacing="20"
+      alignment="CENTER"
+      style="-fx-background-color: #ffffff;">
+    
+    <padding>
+        <Insets>
+            <top>40</top>
+            <right>40</right>
+            <bottom>40</bottom>
+            <left>40</left>
+        </Insets>
+    </padding>
+
+    <Label fx:id="timerLabel" style="-fx-font-size: 24px; -fx-text-fill: red;" />
+    <Label fx:id="questionLabel" wrapText="true" style="-fx-font-size: 22px; -fx-text-fill: #2c3e50;" />
+
+    <VBox fx:id="optionContainer" spacing="10" />
+
+    <Button fx:id="nextButton" text="Next"
+            style="-fx-font-size: 18px; -fx-background-color: #3498db; -fx-text-fill: white;"
+            onAction="#nextQuestion" />
+</VBox>
+

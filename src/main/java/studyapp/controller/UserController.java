@@ -47,12 +47,34 @@ public class UserController {
 }
 
     private void showQuizzes() {
-        welcomeLabel.setText("Quizzes will be here.");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/User - Quizzes.fxml"));
+            Parent quizzesView = loader.load();
+
+            // Optional: Inject contentPane if needed in UserQuizzesController
+            UserQuizzesController controller = loader.getController();
+            // controller.setContentPane(contentPane); // Only if required
+
+            contentPane.getChildren().setAll(quizzesView);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void showProgress() {
-        welcomeLabel.setText("Progress will be here.");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/User - Progress.fxml"));
+            Parent progressView = loader.load();
+
+            UserProgressController controller = loader.getController();
+            // controller.setContentPane(contentPane); // Only if needed
+
+            contentPane.getChildren().setAll(progressView);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
     private void resetToMainContent() {
         welcomeLabel.setText("Welcome Admin!");
    }

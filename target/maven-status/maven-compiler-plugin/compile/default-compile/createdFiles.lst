@@ -1,12 +1,12 @@
-studyapp\ui\QuestionBlock.class
-studyapp\util\DatabaseManager.class
 studyapp\controller\AdminController.class
 studyapp\controller\CreateLessonsController.class
 studyapp\controller\CreateQuizzesController.class
 studyapp\util\QuizDAO.class
 studyapp\controller\LoginController.class
-studyapp\controller\RegisterController.class
 studyapp\util\OptionDAO.class
 studyapp\model\Quiz.class
+studyapp\ui\QuestionBlock.class
+studyapp\util\DatabaseManager.class
+studyapp\controller\RegisterController.class
 studyapp\controller\QuizCreationController.class
 studyapp\util\QuestionDAO.class

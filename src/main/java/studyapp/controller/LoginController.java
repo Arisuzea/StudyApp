@@ -8,7 +8,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import studyapp.model.User;
 import studyapp.util.DatabaseManager;
+import studyapp.util.Session;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -30,15 +32,21 @@ public class LoginController {
         }
 
         try (Connection conn = DatabaseManager.connect()) {
-            String query = "SELECT is_admin FROM users WHERE username = ? AND password = ?";
+            String query = "SELECT id, is_admin FROM users WHERE username = ? AND password = ?";
             try (PreparedStatement stmt = conn.prepareStatement(query)) {
                 stmt.setString(1, username);
                 stmt.setString(2, password);
 
                 try (ResultSet rs = stmt.executeQuery()) {
                     if (rs.next()) {
+                        int userId = rs.getInt("id");
                         boolean isAdmin = rs.getBoolean("is_admin");
-                        errorLabel.setText(""); 
+
+                        // ✅ Set session
+                        User user = new User(userId, username, isAdmin); // Adjust if your User constructor differs
+                        Session.setLoggedInUser(user);
+
+                        errorLabel.setText("");
 
                         String fxmlPath = isAdmin ? "/view/Admin - Dashboard.fxml" : "/view/User - Dashboard.fxml";
                         String cssPath = isAdmin ? "/css/Admin - Dashboard.css" : "/css/User - Dashboard.css";
@@ -68,6 +76,7 @@ public class LoginController {
             e.printStackTrace();
         }
     }
+
     public void goToRegister() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/General - Register.fxml"));
