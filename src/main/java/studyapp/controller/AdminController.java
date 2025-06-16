@@ -10,6 +10,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
+import studyapp.util.UIUtil;
+
 
 public class AdminController {
 
@@ -84,6 +86,7 @@ public class AdminController {
 
             // Open a new stage for login
             Stage loginStage = new Stage();
+            UIUtil.applyAppIcon(loginStage);
             Scene loginScene = new Scene(loginView);
             loginScene.getStylesheets().add(getClass().getResource("/css/General - Login.css").toExternalForm());
 

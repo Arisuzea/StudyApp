@@ -12,6 +12,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import studyapp.model.Quiz;
 import studyapp.util.QuizDAO;
+import studyapp.util.UIUtil;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -66,6 +67,7 @@ public class UserQuizzesController {
             controller.setQuiz(quiz);  // Pass quiz info
 
             Stage stage = new Stage();
+            UIUtil.applyAppIcon(stage);
             stage.setTitle("StudyApp - OOP Learning");
             stage.setScene(new Scene(root));
             stage.setMaximized(true);

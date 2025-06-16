@@ -15,6 +15,7 @@ import studyapp.model.Quiz;
 import studyapp.util.UserAnswerDAO;
 import studyapp.util.DatabaseManager;
 import studyapp.util.Session;
+import studyapp.util.UIUtil;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -131,7 +132,7 @@ public class QuizTakingController {
             controller.setScore(correctCount, questions.size());
 
             Stage popupStage = new Stage();
-            popupStage.setTitle("Quiz Complete");
+            UIUtil.applyAppIcon(popupStage);
             popupStage.setScene(new Scene(popupRoot));
             popupStage.setResizable(false);
 
@@ -143,7 +144,8 @@ public class QuizTakingController {
             popupStage.initModality(javafx.stage.Modality.WINDOW_MODAL);
             popupStage.setAlwaysOnTop(true);
             popupStage.show();
-            popupStage.centerOnScreen();
+            popupStage.setX(quizStage.getX() + (quizStage.getWidth() - popupStage.getWidth()) / 2);
+            popupStage.setY(quizStage.getY() + (quizStage.getHeight() - popupStage.getHeight()) / 2);
 
         } catch (IOException e) {
             e.printStackTrace();

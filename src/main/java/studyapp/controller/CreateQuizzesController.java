@@ -12,6 +12,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import studyapp.model.Quiz;
 import studyapp.util.QuizDAO;
+import studyapp.util.UIUtil;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -51,6 +52,7 @@ public class CreateQuizzesController {
             controller.setOnRefresh(this::refreshQuizList);
 
             Stage stage = new Stage();
+            UIUtil.applyAppIcon(stage);
             Scene scene = new Scene(root);
             scene.getStylesheets().add(getClass().getResource("/css/Admin - QuizCreation.css").toExternalForm());
 
@@ -102,6 +104,7 @@ public class CreateQuizzesController {
             controller.setOnRefresh(this::refreshQuizList);
 
             Stage stage = new Stage();
+            UIUtil.applyAppIcon(stage);
             Scene scene = new Scene(root);
             scene.getStylesheets().add(getClass().getResource("/css/Admin - QuizCreation.css").toExternalForm());
 

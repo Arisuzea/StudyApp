@@ -4,8 +4,8 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import studyapp.util.UIUtil;
 
 
 public class Initializer extends Application {
@@ -17,7 +17,7 @@ public class Initializer extends Application {
 
         stage.setTitle("StudyApp - Login");
 
-        stage.getIcons().add(new Image(getClass().getResourceAsStream("/icons/studyapp.png")));
+        UIUtil.applyAppIcon(stage);
 
         stage.setScene(scene);
         stage.setMaximized(true);

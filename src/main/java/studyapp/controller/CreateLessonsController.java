@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import javafx.event.EventHandler;
 import studyapp.model.Lesson;
 import studyapp.util.LessonDAO;
+import studyapp.util.UIUtil;
 
 import java.io.IOException;
 import java.util.List;
@@ -35,6 +36,7 @@ public class CreateLessonsController {
                 Parent root = loader.load();
 
                 Stage stage = new Stage();
+                UIUtil.applyAppIcon(stage);
                 stage.setTitle("Create New Lesson");
                 stage.setScene(new Scene(root));
                 stage.setMaximized(true);
@@ -82,6 +84,7 @@ public class CreateLessonsController {
             controller.loadLessonForEditing(lesson);
 
             Stage stage = new Stage();
+            UIUtil.applyAppIcon(stage);
             stage.setTitle("Edit Lesson");
             stage.setScene(new Scene(root));
             stage.setMaximized(true);

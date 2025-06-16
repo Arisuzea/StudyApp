@@ -15,9 +15,9 @@ public class QuizResultPopupController {
     private Stage quizStage; // Reference to the main quiz window
 
     public void setScore(int score, int total) {
-        titleLabel.setText("Quiz Complete!");
+        titleLabel.setText("Well Done! You did it!");
         scoreLabel.setText("You scored: " + score + " / " + total);
-        messageLabel.setText("Great work! You can check your progress from the dashboard.");
+        messageLabel.setText("Great work! You can check your progress on all and other quizzes from the dashboard.");
     }
 
     public void setQuizStage(Stage quizStage) {

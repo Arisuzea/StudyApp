@@ -6,20 +6,25 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import studyapp.model.QuizProgress;
 import studyapp.model.User;
 import studyapp.util.ProgressDAO;
 import studyapp.util.Session;
 
 import java.util.List;
+import javafx.stage.Stage;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class UserOwnProgressController {
 
     @FXML private Label userNameLabel;
     @FXML private FlowPane progressCardContainer;
     @FXML private Button btnViewDetails;
-    
+
+    private final DateTimeFormatter dbFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MMM dd, yyyy h:mm a");
 
     @FXML
     public void initialize() {
@@ -30,12 +35,16 @@ public class UserOwnProgressController {
         }
 
         btnViewDetails.setOnAction(e -> {
-            // Placeholder: Replace with your own detail logic or navigation
-            Alert alert = new Alert(AlertType.INFORMATION);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.initOwner(btnViewDetails.getScene().getWindow());
             alert.setTitle("StudyApp - OOP Learning");
             alert.setHeaderText(null);
             alert.setContentText("This feature is under development, after it is implemented, users will be able to view detailed progress for each quiz they've taken.\n\nStay tuned, we wish to deliver it to you soon!");
             alert.showAndWait();
+            // Manual centering
+            Stage stage = (Stage) btnViewDetails.getScene().getWindow();
+            alert.setX(stage.getX() + (stage.getWidth() - alert.getWidth()) / 2);
+            alert.setY(stage.getY() + (stage.getHeight() - alert.getHeight()) / 2);
         });
     }
 
@@ -55,7 +64,19 @@ public class UserOwnProgressController {
             int percentage = (int) ((progress.getScore() / (double) progress.getTotalQuestions()) * 100);
             Label scoreLabel = new Label("✅ Score: " + percentage + "%");
             Label statusLabel = new Label("📝 Status: " + progress.getStatus());
-            Label dateLabel = new Label("📅 Date: " + progress.getDateTaken());
+
+            // Format the date
+            String formattedDate = "—";
+            String rawDate = progress.getDateTaken();
+            if (rawDate != null && !rawDate.isEmpty()) {
+                try {
+                    LocalDateTime parsed = LocalDateTime.parse(rawDate, dbFormatter);
+                    formattedDate = parsed.format(dateFormatter);
+                } catch (Exception e) {
+                    formattedDate = "Invalid Date";
+                }
+            }
+            Label dateLabel = new Label("📅 Date: " + formattedDate);
 
             // Set emoji-compatible font
             quizLabel.setStyle("-fx-font-family: 'Segoe UI Emoji';");
