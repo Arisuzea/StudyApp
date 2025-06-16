@@ -5,25 +5,52 @@ import java.sql.*;
 public class UserAnswerDAO {
 
     // 1. Get or create progress_id when quiz starts
-    public static int getOrCreateProgressId(int userId, int quizId) throws SQLException {
-        String selectSql = "SELECT id FROM user_quiz_progress WHERE user_id = ? AND quiz_id = ? AND status = 'in_progress'";
+    public static int resetAndCreateProgress(int userId, int quizId) throws SQLException {
+        String fetchExistingProgressSql = "SELECT id FROM user_quiz_progress WHERE user_id = ? AND quiz_id = ?";
+        String deleteAnswersSql = "DELETE FROM user_question_answers WHERE progress_id = ?";
+        String deleteProgressSql = "DELETE FROM user_quiz_progress WHERE id = ?";
         String insertSql = "INSERT INTO user_quiz_progress (user_id, quiz_id) VALUES (?, ?)";
 
         try (Connection conn = DatabaseManager.connect()) {
-            PreparedStatement selectStmt = conn.prepareStatement(selectSql);
-            selectStmt.setInt(1, userId);
-            selectStmt.setInt(2, quizId);
-            ResultSet rs = selectStmt.executeQuery();
-            if (rs.next()) return rs.getInt("id");
+            conn.setAutoCommit(false); // Start transaction
 
-            PreparedStatement insertStmt = conn.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS);
-            insertStmt.setInt(1, userId);
-            insertStmt.setInt(2, quizId);
-            insertStmt.executeUpdate();
-            ResultSet generated = insertStmt.getGeneratedKeys();
-            return generated.next() ? generated.getInt(1) : -1;
+            int existingProgressId = -1;
+            try (PreparedStatement fetchStmt = conn.prepareStatement(fetchExistingProgressSql)) {
+                fetchStmt.setInt(1, userId);
+                fetchStmt.setInt(2, quizId);
+                ResultSet rs = fetchStmt.executeQuery();
+                if (rs.next()) existingProgressId = rs.getInt("id");
+            }
+
+            // If a progress exists, delete related answers and progress
+            if (existingProgressId != -1) {
+                try (PreparedStatement delAns = conn.prepareStatement(deleteAnswersSql)) {
+                    delAns.setInt(1, existingProgressId);
+                    delAns.executeUpdate();
+                }
+                try (PreparedStatement delProg = conn.prepareStatement(deleteProgressSql)) {
+                    delProg.setInt(1, existingProgressId);
+                    delProg.executeUpdate();
+                }
+            }
+
+            // Create fresh progress
+            try (PreparedStatement insertStmt = conn.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS)) {
+                insertStmt.setInt(1, userId);
+                insertStmt.setInt(2, quizId);
+                insertStmt.executeUpdate();
+                ResultSet keys = insertStmt.getGeneratedKeys();
+                if (keys.next()) {
+                    conn.commit();
+                    return keys.getInt(1);
+                } else {
+                    conn.rollback();
+                    throw new SQLException("Failed to insert new progress.");
+                }
+            }
         }
     }
+
 
     // 2. Save answer per question
     public static void saveAnswer(int progressId, int questionId, Integer selectedOptionId, boolean isCorrect) throws SQLException {

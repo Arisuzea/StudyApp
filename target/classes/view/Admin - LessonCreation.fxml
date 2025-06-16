@@ -3,6 +3,8 @@
 <?import javafx.collections.FXCollections?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.web.HTMLEditor?>
+
 
 <BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml"
             fx:controller="studyapp.controller.LessonCreationController"
@@ -16,8 +18,7 @@
     </top>
 
     <center>
-        <VBox spacing="15" style="-fx-padding: 30;" maxWidth="700" BorderPane.alignment="CENTER">
-
+        <VBox spacing="15" style="-fx-padding: 30;" BorderPane.alignment="CENTER">
             <Label text="Lesson Title:" style="-fx-font-size: 16px; -fx-text-fill: #34495e;" />
             <TextField fx:id="titleField" promptText="Enter lesson title..." styleClass="text-field"/>
 
@@ -25,21 +26,19 @@
             <TextArea fx:id="shortDescField" promptText="Enter short description..." prefRowCount="2" styleClass="text-area"/>
 
             <Label text="Content:" style="-fx-font-size: 16px; -fx-text-fill: #34495e;" />
-            <TextArea fx:id="contentField" promptText="Enter full lesson content..." prefRowCount="10" styleClass="text-area"/>
+            <HTMLEditor fx:id="contentEditor" prefHeight="300" VBox.vgrow="ALWAYS" styleClass="html-editor"/>
 
             <Label text="Topic:" style="-fx-font-size: 16px; -fx-text-fill: #34495e;" />
             <TextField fx:id="topicField" promptText="e.g., OOP, Algorithms..." styleClass="text-field"/>
 
             <Label text="Difficulty:" style="-fx-font-size: 16px; -fx-text-fill: #34495e;" />
-            <ComboBox fx:id="difficultyBox" styleClass="combo-box" promptText="Select difficulty">
-            </ComboBox>
+            <ComboBox fx:id="difficultyBox" styleClass="combo-box" promptText="Select difficulty"/>
 
-           <HBox spacing="10" alignment="CENTER_RIGHT" style="-fx-padding: 20 0 0 0;">
+            <HBox spacing="10" alignment="CENTER_RIGHT" style="-fx-padding: 20 0 0 0;">
                 <Button fx:id="btnCancel" text="Cancel" styleClass="sidebar-button"/>
                 <Button fx:id="btnDelete" text="Delete Lesson" styleClass="sidebar-button" visible="false"/>
                 <Button fx:id="btnSave" text="Save Lesson" styleClass="sidebar-button"/>
             </HBox>
-
         </VBox>
     </center>
 </BorderPane>

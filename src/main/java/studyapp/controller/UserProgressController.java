@@ -10,6 +10,9 @@ import studyapp.model.QuizProgress;
 import studyapp.util.UserDAO;
 import studyapp.util.ProgressDAO;
 
+import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
+
 import java.util.List;
 
 public class UserProgressController {
@@ -25,20 +28,21 @@ public class UserProgressController {
     @FXML private Button btnViewDetails;
 
     private List<User> allUsers;
+    private User currentUser;
+
+    private final DateTimeFormatter dbFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MMM dd, yyyy h:mm a");
+
 
     @FXML
     public void initialize() {
-        // Configure table columns (assumes QuizProgress has getters)
-        quizCol.setCellValueFactory(data -> data.getValue().quizTitleProperty());
-        scoreCol.setCellValueFactory(data -> data.getValue().scoreProperty().asObject());
-        statusCol.setCellValueFactory(data -> data.getValue().statusProperty());
-        dateCol.setCellValueFactory(data -> data.getValue().dateTakenProperty());
-
+        configureTableColumns();
         loadUsers();
 
         userList.getSelectionModel().selectedItemProperty().addListener(
             (ObservableValue<? extends User> obs, User oldVal, User selectedUser) -> {
-                if (selectedUser != null) {
+                if (selectedUser != null && !selectedUser.equals(currentUser)) {
+                    currentUser = selectedUser;
                     userNameLabel.setText(selectedUser.getUsername());
                     loadProgressForUser(selectedUser.getId());
                 }
@@ -48,7 +52,26 @@ public class UserProgressController {
         searchField.setOnKeyReleased(this::filterUserList);
 
         btnViewDetails.setOnAction(e -> {
-            // You can expand this later to show per-question breakdown
+            // Optional: implement detailed view later
+        });
+    }
+
+    private void configureTableColumns() {
+        quizCol.setCellValueFactory(data -> data.getValue().quizTitleProperty());
+        scoreCol.setCellValueFactory(data -> data.getValue().scoreProperty().asObject());
+        statusCol.setCellValueFactory(data -> data.getValue().statusProperty());
+        dateCol.setCellValueFactory(data -> {
+            String dateStr = data.getValue().getDateTaken();
+            String formatted = "—";
+            if (dateStr != null && !dateStr.isEmpty()) {
+                try {
+                    LocalDateTime parsed = LocalDateTime.parse(dateStr, dbFormatter); // 👈 use custom parser
+                    formatted = parsed.format(dateFormatter); // 👈 pretty format
+                } catch (Exception e) {
+                    formatted = "Invalid Date";
+                }
+            }
+            return new javafx.beans.property.SimpleStringProperty(formatted);
         });
     }
 

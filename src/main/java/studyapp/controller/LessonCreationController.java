@@ -7,6 +7,8 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import javafx.scene.web.HTMLEditor;
+
 import studyapp.model.Lesson;
 import studyapp.util.LessonDAO;
 
@@ -14,10 +16,10 @@ public class LessonCreationController {
 
     @FXML private TextField titleField;
     @FXML private TextArea shortDescField;
-    @FXML private TextArea contentField;
+    @FXML private HTMLEditor contentEditor;
     @FXML private Button btnCancel;
     @FXML private Button btnSave;
-    @FXML private Button btnDelete;  // Added delete button
+    @FXML private Button btnDelete;
 
     private boolean isEditMode = false;
     private int lessonId = -1;
@@ -37,7 +39,7 @@ public class LessonCreationController {
     private void saveLesson() {
         String title = safeTrim(titleField.getText());
         String shortDesc = safeTrim(shortDescField.getText());
-        String content = safeTrim(contentField.getText());
+        String content = contentEditor.getHtmlText().trim();
         String topic = safeTrim(topicField.getText());
         String difficulty = difficultyBox.getValue();
 
@@ -68,7 +70,7 @@ public class LessonCreationController {
 
     titleField.setText(lesson.getTitle());
     shortDescField.setText(lesson.getShortDescription());
-    contentField.setText(lesson.getContent());
+    contentEditor.setHtmlText(lesson.getContent());
     topicField.setText(lesson.getTopic());
     difficultyBox.setValue(lesson.getDifficulty());
 

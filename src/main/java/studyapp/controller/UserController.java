@@ -50,11 +50,6 @@ public class UserController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/User - Quizzes.fxml"));
             Parent quizzesView = loader.load();
-
-            // Optional: Inject contentPane if needed in UserQuizzesController
-            UserQuizzesController controller = loader.getController();
-            // controller.setContentPane(contentPane); // Only if required
-
             contentPane.getChildren().setAll(quizzesView);
         } catch (IOException e) {
             e.printStackTrace();
@@ -63,12 +58,8 @@ public class UserController {
 
     private void showProgress() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/User - Progress.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/User - UserProgress.fxml"));
             Parent progressView = loader.load();
-
-            UserProgressController controller = loader.getController();
-            // controller.setContentPane(contentPane); // Only if needed
-
             contentPane.getChildren().setAll(progressView);
         } catch (IOException e) {
             e.printStackTrace();

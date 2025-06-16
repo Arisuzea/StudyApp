@@ -102,7 +102,8 @@ public class QuizTakingController {
 
         try {
             int userId = Session.getLoggedInUser().getId();
-            int progressId = UserAnswerDAO.getOrCreateProgressId(userId, quiz.getId());
+            int progressId = UserAnswerDAO.resetAndCreateProgress(userId, quiz.getId());
+
 
             for (Question q : questions) {
                 char selectedChar = userAnswers.getOrDefault(q.getId(), ' ');
